@@ -1266,12 +1266,12 @@
     const major = ["ANTM", "ARBM", "BCMM", "BGNM", "BOTM", "CACM", "BRCM", "EBCM", "DTCM", "CEMM", "CMSM", "ECOM", "EDCM", "EGNM",
         "ELTM", "ENVM", "FACM", "FNTM", "FRNM", "GELM", "GEOM", "HISM", "HMDM", "HNDM", "HURM", "IHCM", "JORM",
         "LINM", "LSTM", "LURM", "MCBM", "MTHM", "PALM", "PERM", "PHIM", "PHSM", "PHYM", "PLSM", "PSYM", "RUSM", "SANM",
-        "SOCM", "STSM", "ZOOM", "VASM", "VCAM", "VCEM", "VCNM", "VIFM", "VSEM", "VTTM"
+        "SOCM", "STSM", "ZOOM", "VASM", "VCAM", "VCEM", "VCNM", "VIFM", "VSEM", "VTTM", "ITAC", "ENDC", "DIEM", "CADC", "ARTI"
       ],
       minor = ["MANT", "MARB", "MBCM", "MBGN", "MBOT", "BRGM", "EBGM", "MCEM", "MCMS", "MECO", "MEDC", "MEGN", "MELT",
         "MENV", "FAGM", "DTGM", "MFNT", "MFRN", "MGEL", "MGEO", "MHIS", "MHMD", "MHND", "MHUR", "MIHC", "MJOR", "MLIN",
         "MLST", "MLUR", "MMCB", "MMTH", "MPAL", "MPER", "MPHI", "MPHS", "MPHY", "MPLS", "MPSY", "MRUS", "MSAN", "MSSC",
-        "MSOC", "MSTS", "MZOO", "MEBS", "MFST", "MHRM", "MHRT", "MMDS", "MMLB", "MMUS", "MMHE", "MPPM", "MWOS"
+        "MSOC", "MSTS", "MZOO", "MEBS", "MFST", "MHRM", "MHRT", "MMDS", "MMLB", "MMUS", "MMHE", "MPPM", "MWOS", "ITAC", "ENDC", "DIEM", "CADC", "ARTI"
       ],
       si = ["MINT", "INTM"],
       idc = ["ANTD", "ARBD", "BCMD", "BGND", "BOTD", "CEMD", "CMSD", "ECOD", "EDCD", "EGND", "ELTD", "ENVD", "FNTD",
@@ -1292,7 +1292,7 @@
         "PLSA", "PLSG", "PSYA", "PSYG", "RUSA", "RUSG", "SANA", "SANG",
         "SOCA", "SOCG", "STSA", "STSG", "ZOOA", "ZOOG", "VASA", "VASG",
         "VCAA", "VCAG", "VCEA", "VCEG", "VCNA", "VCNG", "VIFA", "VIFG",
-        "VSEA", "VSEG", "VTTA", "VTTG"
+        "VSEA", "VSEG", "VTTA", "VTTG", "ITAC", "ENDC", "DIEM", "CADC", "ARTI"
       ];
     
     const validateSubject = debounce(() => {
@@ -1675,6 +1675,11 @@
       "ANTD": "Anthropology",
       "ARBD": "Arabic",
       "BCMD": "Bio-chemistry",
+      "CADC": "Computerized Accounting and Application of Data",
+      "ARTI": "Artificial Intelligence",
+      "DIEM": "Digital Empowerment",
+      "ENDC": "Entrepreneurship Development",
+      "ITAC": "IT and ITS Application in Business",
       "MINT": "Summer Internship",
       "INTM": "Summer Internship"
     };
