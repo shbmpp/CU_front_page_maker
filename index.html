@@ -1276,13 +1276,13 @@
     
     // Subject Codes
     const major = ["ANTM", "ARBM", "BCMM", "BGNM", "BOTM", "CACM", "BRCM", "EBCM", "DTCM", "CEMM", "CMSM", "ECOM", "EDCM", "EGNM",
-        "ELTM", "ENVM", "FACM", "FNTM", "FRNM", "GELM", "GEOM", "HISM", "HMDM", "HNDM", "HURM", "IHCM", "JORM",
+        "ELTM", "ENVM", "FACM", "FNTM", "FRNM", "GELM", "GEOM", "HISM", "HMDM", "HNDM", "HURM", "IHCM", "JORM", "ACCM", "MSCM", "CLCM",
         "LINM", "LSTM", "LURM", "MCBM", "MTHM", "PALM", "PERM", "PHIM", "PHSM", "PHYM", "PLSM", "PSYM", "RUSM", "SANM",
         "SOCM", "STSM", "ZOOM", "VASM", "VCAM", "VCEM", "VCNM", "VIFM", "VSEM", "VTTM", "ITAC", "ENDC", "DIEM", "CADC", "ARTI"
       ],
-      minor = ["MANT", "MARB", "MBCM", "MBGN", "MBOT", "BRGM", "EBGM", "MCEM", "MCMS", "MECO", "MEDC", "MEGN", "MELT",
-        "MENV", "FAGM", "DTGM", "MFNT", "MFRN", "MGEL", "MGEO", "MHIS", "MHMD", "MHND", "MHUR", "MIHC", "MJOR", "MLIN",
-        "MLST", "MLUR", "MMCB", "MMTH", "MPAL", "MPER", "MPHI", "MPHS", "MPHY", "MPLS", "MPSY", "MRUS", "MSAN", "MSSC",
+      minor = ["MANT", "MARB", "MBCM", "MBGN", "MBOT", "BRGM", "EBGM", "MCEM", "MCMS", "MECO", "MEDC", "MEGN", "MELT", "ACGM", "MCGM", "CLGM",
+        "MENV", "FAGM", "DTGM", "MFNT", "MFRN", "MGEL", "MGEO", "MHIS", "MHMD", "MHND", "MHUR", "MIHC", "MJOR", "MLIN", "MPRM",
+        "MLST", "MLUR", "MMCB", "MMTH", "MPAL", "MPER", "MPHI", "MPHS", "MPHY", "MPLS", "MPSY", "MRUS", "MSAN", "MSSC", "MMKC",
         "MSOC", "MSTS", "MZOO", "MEBS", "MFST", "MHRM", "MHRT", "MMKT", "MSMT", "MMDS", "MMLB", "MMUS", "MMHE", "MPPM", "MWOS", "ITAC", "ENDC", "DIEM", "CADC", "ARTI"
       ],
       si = ["MINT", "INTM"],
@@ -1540,12 +1540,20 @@
       "CMSM": "Computer Science",
       "DTCM": "Direct Tax - I",
       "DTGM": "Direct Tax - I",
+      "ACCM": "Corporate Accounting",
+      "ACGM": "Corporate Accounting",
+      "MSCM": "Business Mathematics & Statistics",
+      "MSGM": "Business Mathematics & Statistics",
+      "CLCM": "Company Law",
+      "CLGM": "Company Law",
       "BRCM": "Business Regulatory Framework",
       "BRGM": "Business Regulatory Framework",
       "EBCM": "E-Commerce & Business Communication",
       "EBGM": "E-Commerce & Business Communication",
       "MSMT": "Sales Management",
       "MMKT": "Consumer Behaviour",
+      "MPRM": "Product & Pricing Management",
+      "MMKC": "Marketing Communication",
       "ECOM": "Economics",
       "EDCM": "Education",
       "EGNM": "English",
@@ -1812,19 +1820,17 @@
           V: !notValidIntern && (
             ((is4 || dept === "1") && prefix === "DSCC" && [9, 10, 11, 12].includes(num)) ||
             (!is4 && prefix === "CC" && [6, 7].includes(num)) ||
-            (["2", "3"].includes(dept) && ((is4 && prefix === "MN" && num === 3) ||
-              (!is4 && prefix === "MN" && [3, 4].includes(num)))) ||
-            (dept === "1" && prefix === "MN" && num === 5)
+            (["2", "3"].includes(dept) && (prefix === "MN" && [3, 4].includes(num))) ||
+            (dept === "1" && prefix === "MN" && [5, 6].includes(num))
           ),
           VI: (
             (is4 && subj === "INTM" && num === 1) ||
             (!is4 && subj === "MINT" && num === 1) ||
-            ((is4 || dept === "1") && prefix === "DSCC" && [13, 14, 15].includes(num)) ||
+            ((is4 || dept === "1") && prefix === "DSCC" && [12, 13, 14, 15].includes(num)) ||
             (dept === "1" && prefix === "DSCC" && [13, 14, 15, 16].includes(num)) ||
             (!is4 && prefix === "CC" && [7, 8].includes(num)) ||
-            (["2", "3"].includes(dept) && ((is4 && prefix === "MN" && num === 4) ||
-              (!is4 && prefix === "MN" && [5, 6].includes(num)))) ||
-            (dept === "1" && prefix === "MN" && num === 6)
+            (["2", "3"].includes(dept) && (prefix === "MN" && [5, 6].includes(num))) ||
+            (dept === "1" && prefix === "MN" && [5, 6].includes(num))
           ),
           VII: (
             (is4 && prefix === "DSCC" && [16, 17, 18, 19, 20].includes(num)) ||
@@ -2189,28 +2195,28 @@
         case "V":
           return !deptCom ? (isH ?
               (maj ? ["DSCC-9", "DSCC-10", "DSCC-11", "DSCC-12"] :
-                min ? ["MN-3"] : []) :
+                min ? ["MN-3", "MN-4"] : []) :
               isG ?
               (min ? ["CC-6", "CC-7", "MN-3", "MN-4"] : []) : []) :
             (isH ?
-              (maj ? ["DSCC-9", "DSCC-10", "DSCC-11", "DSCC-12"] :
-                min ? ["MN-5"] : []) :
+              (maj ? ["DSCC-9", "DSCC-10", "DSCC-11"] :
+                min ? ["MN-5", "MN-6"] : []) :
               isG ?
-              (min ? ["DSCC-9", "DSCC-10", "DSCC-11", "DSCC-12", "MN-5"] : []) : []);
+              (min ? ["DSCC-9", "DSCC-10", "DSCC-11", "DSCC-12", "MN-5", "MN-6"] : []) : []);
         case "VI":
           return !deptCom ? (isH ?
               (maj ? ["DSCC-13", "DSCC-14", "DSCC-15"] :
-                min ? ["MN-4"] :
+                min ? ["MN-5", "MN-6"] :
                 si_ ? ["SI-1"] : []) :
               isG ?
               (min ? ["CC-8", "CC-7", "MN-5", "MN-6"] :
                 si_ ? ["SI-1"] : []) : []) :
             (isH ?
-              (maj ? ["DSCC-13", "DSCC-14", "DSCC-15", "DSCC-16"] :
-                min ? ["MN-6"] :
+              (maj ? ["DSCC-13", "DSCC-14", "DSCC-15", "DSCC-12"] :
+                min ? ["MN-7", "MN-8"] :
                 si_ ? ["SI-1"] : []) :
               isG ?
-              (min ? ["DSCC-13", "DSCC-14", "DSCC-15", "DSCC-16", "MN-6"] :
+              (min ? ["DSCC-13", "DSCC-14", "DSCC-15", "DSCC-16", "MN-7", "MN-8"] :
                 si_ ? ["SI-1"] : []) : []);
         case "VII":
           return !deptCom ? (isH ? ["DSCC-16", "DSCC-17", "DSCC-18", "DSCC-19", "DSCC-20", "RES-1"] : []) :
