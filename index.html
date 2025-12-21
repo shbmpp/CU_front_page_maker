@@ -1214,10 +1214,10 @@
       const semPrefixesCom = {
         I: { H: { "DSCC": [1], "MN": [1], "SEC": [1], "IDC": [1], "MDC": [1] }, G: { "DSCC": [1], "MN": [1], "SEC": [1], "IDC": [1], "MDC": [1] } },
         II: { H: { "DSCC": [2], "MN": [2], "SEC": [2], "IDC": [2], "MDC": [2], "SI": [1] }, G: { "DSCC": [2], "MN": [2], "SEC": [2], "IDC": [2], "MDC": [2], "SI": [1] } },
-        III: { H: { "DSCC": [3, 4], "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3] }, G: { "DSCC": [3, 4], "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3] } },
-        IV: { H: { "DSCC": [5, 6, 7, 8], "MN": [4], "SI": [1] }, G: { "DSCC": [5, 6, 7, 8], "MN": [4], "SI": [1] } },
-        V: { H: { "DSCC": [9, 10, 11, 12], "MN": [5] }, G: { "DSCC": [9, 10, 11, 12], "MN": [5] } },
-        VI: { H: { "DSCC": [13, 14, 15, 16], "MN": [6], "SI": [1] }, G: { "DSCC": [13, 14, 15, 16], "MN": [6], "SI": [1] } },
+        III: { H: { "DSCC": [3, 4], "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3, 4] }, G: { "DSCC": [3, 4], "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3] } },
+        IV: { H: { "DSCC": [5, 6, 7, 8], "MN": [4], "SI": [1] }, G: { "DSCC": [5, 6, 7, 8], "MDC": [5, 6, 7, 8], "MN": [4], "SI": [1] } },
+        V: { H: { "DSCC": [9, 10, 11, 12], "MN": [5] }, G: { "DSCC": [9, 10, 11, 12], "MDC": [9, 10, 11, 12], "MN": [5] } },
+        VI: { H: { "DSCC": [13, 14, 15, 16], "MN": [6], "SI": [1] }, G: { "DSCC": [13, 14, 15, 16], "MDC": [13, 14, 15, 16], "MN": [6], "SI": [1] } },
         VII: { H: { "DSCC": [21, 17, 18, 19, 20], "RES": [1] }, G: {} },
         VIII: { H: { "DSCC": [20, 26, 22, 23, 24, 25], "RES": [2] }, G: {} }
       };
@@ -1237,7 +1237,7 @@
       } else if (minor.includes(subVal) && !deptCom) {
         allowedMap = Object.fromEntries(Object.entries(allowedMap).filter(([k]) => ["CC", "SEC", "MN"].includes(k)));
       } else if (minor.includes(subVal) && deptCom) {
-        allowedMap = Object.fromEntries(Object.entries(allowedMap).filter(([k]) => ["DSCC", "SEC", "MN"].includes(k)));
+        allowedMap = Object.fromEntries(Object.entries(allowedMap).filter(([k]) => ["DSCC", "SEC", "MN", "MDC"].includes(k)));
       } else if (idc.includes(subVal)) {
         allowedMap = Object.fromEntries(Object.entries(allowedMap).filter(([k]) => k === "IDC"));
       } else if (si.includes(subVal)) {
@@ -1752,20 +1752,20 @@
           inList = (list) => list.includes(subj),
           
           ok = (
-            ((isPrefix(["SEC", "IDC", "MDC", "SI"]) && validNum) || isPrefix(["DSCC", "CC", "MN", "RES"])) &&
+            ((isPrefix(["SEC", "IDC", "MDC", "SI"]) && validNum) || isPrefix(["DSCC", "CC", "MN", "MDC", "RES"])) &&
             num?.trim() &&
             inList([...major, ...minor, ...idc, ...si]) &&
             (
               (inList(si) && prefix === "SI") ||
               (inList(idc) && isPrefix(["IDC", "MDC"])) ||
               (inList(major) && isPrefix(["DSCC", "SEC"])) ||
-              (inList(minor) && isPrefix(["MN", "CC", "DSCC", "SEC"]))
+              (inList(minor) && isPrefix(["MN", "CC", "DSCC", "MDC", "SEC"]))
             ) &&
             (
               (!deptCom && !is4 && inList(minor) && isPrefix(["SEC", "CC", "MN"])) ||
               (!deptCom && is4 && inList(minor) && prefix === "MN") ||
-              (deptCom && !is4 && inList(minor) && isPrefix(["SEC", "DSCC", "MN"])) ||
-              (deptCom && is4 && inList(minor) && prefix === "MN") ||
+              (deptCom && !is4 && inList(minor) && isPrefix(["SEC", "DSCC", "MN", "MDC"])) ||
+              (deptCom && is4 && inList(minor) && isPrefix(["DSCC", "MN"])) ||
               (!deptCom && is4 && inList(major) && isPrefix(["SEC", "DSCC"])) ||
               (deptCom && is4 && inList(major) && isPrefix(["SEC", "DSCC"]))
             )
@@ -1806,19 +1806,21 @@
             (["2", "3"].includes(dept) && prefix === "MN" && num === 1) ||
             (dept === "1" && prefix === "MN" && num === 3) ||
             (prefix === "IDC" && num === 3) ||
-            (prefix === "MDC" && num === 3) ||
+            (prefix === "MDC" && [4, 3].includes(num)) ||
             (prefix === "SEC" && num === 3)
           ),
           IV: (
             (is4 && subj === "INTM" && num === 1) ||
             (!is4 && subj === "MINT" && num === 1) ||
-            ((is4 || dept === "1") && prefix === "DSCC" && [5, 6, 7, 8].includes(num)) ||
+            (is4 && prefix === "DSCC" && [5, 6, 7, 8].includes(num)) ||
+            (dept === "1" && ["DSCC", "MDC"].includes(prefix) && [5, 6, 7, 8].includes(num)) ||
             (!is4 && prefix === "CC" && [4, 5].includes(num)) ||
             (["2", "3"].includes(dept) && prefix === "MN" && num === 2) ||
             (dept === "1" && prefix === "MN" && num === 4)
           ),
           V: !notValidIntern && (
             ((is4 || dept === "1") && prefix === "DSCC" && [9, 10, 11, 12].includes(num)) ||
+            (dept === "1" && ["DSCC", "MDC"].includes(prefix) && [9, 10, 11, 12].includes(num)) ||
             (!is4 && prefix === "CC" && [6, 7].includes(num)) ||
             (["2", "3"].includes(dept) && (prefix === "MN" && [3, 4].includes(num))) ||
             (dept === "1" && prefix === "MN" && [5, 6].includes(num))
@@ -1827,7 +1829,7 @@
             (is4 && subj === "INTM" && num === 1) ||
             (!is4 && subj === "MINT" && num === 1) ||
             ((is4 || dept === "1") && prefix === "DSCC" && [12, 13, 14, 15].includes(num)) ||
-            (dept === "1" && prefix === "DSCC" && [13, 14, 15, 16].includes(num)) ||
+            (dept === "1" && ["DSCC", "MDC"].includes(prefix) && [12, 13, 14, 15].includes(num)) ||
             (!is4 && prefix === "CC" && [7, 8].includes(num)) ||
             (["2", "3"].includes(dept) && (prefix === "MN" && [5, 6].includes(num))) ||
             (dept === "1" && prefix === "MN" && [5, 6].includes(num))
@@ -2141,7 +2143,7 @@
                 min ? ["MN-1"] :
                 idc_ ? ["IDC-1"] : []) :
               isG ?
-              (min ? ["DSCC-1", "SEC-1", "MN-1"] :
+              (min ? ["DSCC-1", "MDC-1", "SEC-1", "MN-1"] :
                 idc_ ? ["IDC-1"] : []) : []);
         case "II":
           return !deptCom ? (isH ?
@@ -2159,7 +2161,7 @@
                 idc_ ? ["IDC-2"] :
                 si_ ? ["SI-1"] : []) :
               isG ?
-              (min ? ["DSCC-2", "SEC-2", "MN-2"] :
+              (min ? ["DSCC-2", "MDC-2", "SEC-2", "MN-2"] :
                 idc_ ? ["IDC-2"] :
                 si_ ? ["SI-1"] : []) : []);
         case "III":
@@ -2175,7 +2177,7 @@
                 min ? ["MN-3"] :
                 idc_ ? ["IDC-3"] : []) :
               isG ?
-              (min ? ["DSCC-3", "DSCC-4", "SEC-3", "MN-3"] :
+              (min ? ["DSCC-3", "DSCC-4", "MDC-3", "MDC-4", "SEC-3", "MN-3"] :
                 idc_ ? ["IDC-3"] : []) : []);
         case "IV":
           return !deptCom ? (isH ?
@@ -2190,7 +2192,11 @@
                 min ? ["MN-4"] :
                 si_ ? ["SI-1"] : []) :
               isG ?
-              (min ? ["DSCC-5", "DSCC-6", "DSCC-7", "DSCC-8", "MN-4"] :
+              (min ? [
+                  "DSCC-5", "DSCC-6", "DSCC-7", "DSCC-8",
+                  "MDC-5", "MDC-6", "MDC-7", "MDC-8",
+                  "MN-4"
+                ] :
                 si_ ? ["SI-1"] : []) : []);
         case "V":
           return !deptCom ? (isH ?
@@ -2202,7 +2208,11 @@
               (maj ? ["DSCC-9", "DSCC-10", "DSCC-11"] :
                 min ? ["MN-5", "MN-6"] : []) :
               isG ?
-              (min ? ["DSCC-9", "DSCC-10", "DSCC-11", "DSCC-12", "MN-5", "MN-6"] : []) : []);
+              (min ? [
+                "DSCC-9", "DSCC-10", "DSCC-11", "DSCC-12",
+                "MDC-9", "MDC-10", "MDC-11", "MDC-12",
+                "MN-5"
+              ] : []) : []);
         case "VI":
           return !deptCom ? (isH ?
               (maj ? ["DSCC-13", "DSCC-14", "DSCC-15"] :
@@ -2216,7 +2226,11 @@
                 min ? ["MN-7", "MN-8"] :
                 si_ ? ["SI-1"] : []) :
               isG ?
-              (min ? ["DSCC-13", "DSCC-14", "DSCC-15", "DSCC-16", "MN-7", "MN-8"] :
+              (min ? [
+                  "DSCC-13", "DSCC-14", "DSCC-15", "DSCC-16",
+                  "MDC-13", "MDC-14", "MDC-15", "MDC-16",
+                  "MN-7", "MN-8"
+                ] :
                 si_ ? ["SI-1"] : []) : []);
         case "VII":
           return !deptCom ? (isH ? ["DSCC-16", "DSCC-17", "DSCC-18", "DSCC-19", "DSCC-20", "RES-1"] : []) :
