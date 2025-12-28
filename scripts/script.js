@@ -193,6 +193,7 @@ form.addEventListener("submit", e => {
   
   let ok = true;
   const submitBtn = form.querySelector('button[type="submit"]');
+  const resetBtn = form.querySelector('button[type="submit"]');
   
   // validation
   form.querySelectorAll(".placeholder-wrapper").forEach(w => {
@@ -209,6 +210,7 @@ form.addEventListener("submit", e => {
   // show processing state
   submitBtn.classList.add("is-processing");
   submitBtn.disabled = true;
+  resetBtn.disabled = true;
   
   // let browser paint "Generating..." first
   requestAnimationFrame(() => {
@@ -229,9 +231,11 @@ document.addEventListener("click", () => {
 
 window.addEventListener("pageshow", () => {
   const btn = document.querySelector('button[type="submit"]');
+  const rbtn = document.querySelector('button[type="submit"]');
   if (btn) {
     btn.classList.remove("is-processing");
     btn.disabled = false;
+    rbtn.disabled = false;
   }
   bindValidation(subjectCodeInput, validatePaper);
 });
