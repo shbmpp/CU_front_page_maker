@@ -1,7 +1,6 @@
 function printA4() {
   window.print();
 }
-// classic/index.html
 
 function downloadA4PDF(filename = document.title) {
   const element = document.querySelector(".a4-container");
@@ -124,17 +123,20 @@ function renderTemplate(data) {
   });
 }
 
+const showLoading = (load = false) => document.body.classList.toggle("showLoading", load);
+
 (function boot() {
   try {
     const data = JSON.parse(sessionStorage.getItem("STD_INFO"));
     if (!data) throw new Error("STD_INFO missing");
-
+    
     if (typeof renderTemplate !== "function")
       throw new Error("renderTemplate not loaded");
-
+    
+    showLoading(true);
     renderTemplate(data);
     setTitle?.();
-
+    setTimeout(showLoading, 2000);
     // ✅ announce READY
     window.APP_READY = true;
   } catch (e) {
@@ -144,6 +146,6 @@ function renderTemplate(data) {
         Failed to load preview.<br>
         Please go back and try again.
       </div>`;
-      setTimeout(() => window.back(), 2000);
+    setTimeout(() => history.back(), 2000);
   }
 })();
