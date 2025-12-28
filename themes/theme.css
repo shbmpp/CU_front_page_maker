@@ -165,7 +165,7 @@ footer {
   bottom: 12px;
   left: 0;
   width: 100%;
-  height: var(--footer-h);
+  height: 60px;
   padding: 1em;
   text-align: center;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
