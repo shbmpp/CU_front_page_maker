@@ -360,7 +360,7 @@ const formatWith = (raw, parts) => {
     if (raw.length > i) out.push(raw.slice(i, i + len));
     i += len;
   }
-  return out.join("+");
+  return out.join("-");
 };
 
 // ---------- INPUT GUARDS ----------
