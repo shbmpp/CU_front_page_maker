@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Warm</title>
+  <link rel="stylesheet" href="/themes/theme.css">
+  <style>
+    /* ===== Enhanced Root Palette ===== */
+    :root {
+      --warm-main: #ffb84d;
+      --warm-secondary: #ff9900;
+      --warm-dark: #cc7a00;
+      --warm-soft: rgba(255, 184, 77, 0.25);
+      --warm-glow: rgba(255, 184, 77, 0.9);
+      --paper: #FFEED7;
+      --paper-texture: repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(255, 184, 77, 0.05) 24px, rgba(255, 184, 77, 0.05) 25px);
+      --ink: #3a2a10;
+      --ink-light: #5c4a2a;
+      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-hard: 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+    
+    /* ===== Page base with enhanced gradient ===== */
+    /* body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top,
+          #2a1a00 0%,
+          #1a1000 40%,
+          #0d0800 80%,
+          #000 100%);
+      color: var(--ink);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+    
+    /* ===== Subtle paper texture overlay ===== */
+    /* body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255, 184, 77, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 184, 77, 0.03) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    /* ===== Main A4 container with enhanced styling ===== */
+    /* .a4-wrapper {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 20px auto;
+      position: relative;
+      filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5));
+      transition: filter 0.3s ease;
+    }
+    
+    .a4-wrapper:hover {
+      filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.7));
+    }
+    */
+    .a4-container {
+      background-color: var(--paper);
+      
+      background-image:
+        var(--paper-texture),
+        url('/themes/warm/border.jpg');
+      
+      background-repeat:
+        repeat,
+        no-repeat;
+      
+      background-position:
+        center,
+        center;
+      
+      background-size:
+        auto,
+        contain;
+      
+      box-shadow:
+        var(--shadow-hard),
+        inset 0 0 100px rgba(255, 184, 77, 0.08),
+        0 0 0 1px rgba(255, 184, 77, 0.1);
+    }
+    
+    /* ===== Corner decorative elements ===== */
+    .a4-container::before,
+    .a4-container::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      z-index: 1;
+    }
+    
+    .a4-container::before {
+      top: 20px;
+      left: 20px;
+      border-top: 2px solid var(--warm-soft);
+      border-left: 2px solid var(--warm-soft);
+      border-radius: 10px 0 0 0;
+    }
+    
+    .a4-container::after {
+      bottom: 20px;
+      right: 20px;
+      border-bottom: 2px solid var(--warm-soft);
+      border-right: 2px solid var(--warm-soft);
+      border-radius: 0 0 10px 0;
+    }
+    
+    .warm {
+      height: 90%;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+      font-family: monospace;
+    }
+    
+    .warm .univ-logo {
+      display: flex;
+      align-self: center;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 2pc;
+      margin-top: 100px;
+    }
+    
+.warm .logo {
+
+  background-color: transparent;
+  background-image:
+    radial-gradient(circle,
+      rgba(255,216,155,0.3) 0%,
+      rgba(255,184,77,0.5) 60%,
+      rgba(217,140,0,0.7) 100%),
+    url('/styles/cu-black.png');
+
+  background-size: cover, contain;
+  background-position: center, center;
+  background-repeat: no-repeat;
+
+  border-radius: 50%;
+  box-shadow: 0 0 100px rgba(255, 184, 77, 1);
+}    
+    .warm .detail-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      /* 2 কলাম */
+      gap: 10px;
+      width: 80%;
+      margin: auto;
+    }
+    
+    .warm .detail-container .info {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: .5em;
+      margin: 5px 0;
+      font-size: 1.45rem;
+      font-weight: 300;
+      width: fit-content;
+      background: rgba(255, 184, 77, 0.2);
+      box-shadow: 0 0 100px rgba(255, 184, 77, 1);
+      border: .5px solid rgba(255, 184, 77, .5);
+      position: relative;
+      /* এখানে নতুন */
+      z-index: 0;
+      border-radius: 90px;
+      /* pseudo-element-এর নিচে রাখবে */
+    }
+    
+    .warm .detail-container .info p {
+      padding: 1px;
+      margin: 0;
+      font-size: 50%;
+    }
+    
+    .warm .detail-container .info span {
+      padding: 1px;
+      margin: 0;
+      font-size: 65%;
+      white-space: wrap;
+      font-style: oblique;
+    }
+    
+    /* span 2 columns */
+    .warm .detail-container .topic,
+    .warm .detail-container .sub,
+    .warm .detail-container .grp,
+    .warm .detail-container .n {
+      grid-column: 1 / -1;
+      /* পুরো প্রস্থ জুড়ে থাকবে */
+      justify-content: center;
+      /* কনটেন্ট সেন্টার */
+      text-align: left;
+    }
+    
+    .warm .detail-container .topic,
+    .warm .college {
+      padding: 1em;
+      margin: 15px;
+      font-size: 170%;
+      text-align: center;
+      justify-self: center;
+      background: rgba(255, 184, 77, 0.2);
+      box-shadow: 0 0 100px rgba(255, 184, 77, 1);
+      border-block: 1px solid rgba(255, 184, 77, 0.9450980392156862);
+    }
+    
+    .grp {
+      border: 5px double rgba(255, 184, 77, 0.9450980392156862);
+      padding: 1.5em;
+      border-radius: 15px;
+    }
+    
+    /* ===== Decorative elements ===== */
+    .decoration {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .decoration-1 {
+      top: 50px;
+      right: 50px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 184, 77, 0.1) 0%, transparent 70%);
+    }
+    
+    .decoration-2 {
+      bottom: 80px;
+      left: 60px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 184, 77, 0.05) 0%, transparent 70%);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="pdf-loader" class="pdf-loader hidden">
+    <div class="spinner"></div>
+    <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+        <path d="M128 64C92.7 64 64 92.7 64 128L64 512C64 547.3 92.7 576 128 576L208 576L208 464C208 428.7 236.7 400 272 400L448 400L448 234.5C448 217.5 441.3 201.2 429.3 189.2L322.7 82.7C310.7 70.7 294.5 64 277.5 64L128 64zM389.5 240L296 240C282.7 240 272 229.3 272 216L272 122.5L389.5 240zM272 444C261 444 252 453 252 464L252 592C252 603 261 612 272 612C283 612 292 603 292 592L292 564L304 564C337.1 564 364 537.1 364 504C364 470.9 337.1 444 304 444L272 444zM304 524L292 524L292 484L304 484C315 484 324 493 324 504C324 515 315 524 304 524zM400 444C389 444 380 453 380 464L380 592C380 603 389 612 400 612L432 612C460.7 612 484 588.7 484 560L484 496C484 467.3 460.7 444 432 444L400 444zM420 572L420 484L432 484C438.6 484 444 489.4 444 496L444 560C444 566.6 438.6 572 432 572L420 572zM508 464L508 592C508 603 517 612 528 612C539 612 548 603 548 592L548 548L576 548C587 548 596 539 596 528C596 517 587 508 576 508L548 508L548 484L576 484C587 484 596 475 596 464C596 453 587 444 576 444L528 444C517 444 508 453 508 464z" />
+      </svg>Downloading…</p>
+  </div>
+  <main class="a4-wrapper">
+    <section class="a4-container">
+      <div class="warm">
+        <div class="decoration decoration-1"></div>
+        <div class="decoration decoration-2"></div>
+        <!-- University Logo (optional) -->
+        <div class="univ-logo">
+          <div class="logo"></div>
+          <div class="info college">college name</div>
+        </div>
+        
+        <div class="detail-container">
+          
+          <!-- College Name
+          <div class="info">
+            COLLEGE NAME HERE
+          </div>-->
+          
+          <!-- Course (optional) -->
+          <div class="info topic">
+            COURSE NAME HERE
+          </div>
+          <div class="grp">
+            <p><b>Submitted by...</b></p>
+            
+            <!-- Name (optional) -->
+            <div class="info n">
+              <p>Name:</p>
+              <span class="name">STUDENT NAME HERE</span>
+            </div>
+            
+            <!-- Registration -->
+            <div class="info reg">
+              <p>Registration Number:</p>
+              <span class="reg_number">REGISTRATION NUMBER HERE</span>
+            </div>
+            
+            <!-- Roll -->
+            <div class="info roll">
+              <p>Roll Number:</p>
+              <span class="roll_number">ROLL NUMBER HERE</span>
+            </div>
+            <!-- Course / Stream -->
+            <div class="info">
+              <p>Course:</p>
+              <span class="course">STREAM / COURSE HERE</span>
+            </div>
+            
+            <!-- Semester -->
+            <div class="info">
+              <p>Semester -</p>
+              <span class="semester">SEMESTER HERE</span>
+            </div>
+            
+            <!-- Subject -->
+            <div class="info sub">
+              <p>Subject:</p>
+              <span class="subject">SUBJECT NAME HERE</span>
+            </div>
+            
+            <!-- Paper -->
+            <div class="info">
+              <p>Paper:</p>
+              <span class="paper">PAPER NAME (ASSIGNMENT TYPE)</span><span class="paperType"></span>
+            </div>
+            
+            <!-- Session (optional) -->
+            <div class="info">
+              <p>Session:</p>
+              <span class="session">SESSION HERE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="buttons-below">
+      <button onclick="history.back()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+          <path d="M210.5 480L333.5 480L398.8 414.7L225.3 241.2L98.6 367.9L210.6 479.9zM256 544L210.5 544C193.5 544 177.2 537.3 165.2 525.3L49 409C38.1 398.1 32 383.4 32 368C32 352.6 38.1 337.9 49 327L295 81C305.9 70.1 320.6 64 336 64C351.4 64 366.1 70.1 377 81L559 263C569.9 273.9 576 288.6 576 304C576 319.4 569.9 334.1 559 345L424 480L544 480C561.7 480 576 494.3 576 512C576 529.7 561.7 544 544 544L256 544z" />
+        </svg></button>
+      <button onclick="printA4()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+          <path d="M128 128C128 92.7 156.7 64 192 64L405.5 64C422.5 64 438.8 70.7 450.8 82.7L493.3 125.2C505.3 137.2 512 153.5 512 170.5L512 208L128 208L128 128zM64 320C64 284.7 92.7 256 128 256L512 256C547.3 256 576 284.7 576 320L576 416C576 433.7 561.7 448 544 448L512 448L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 448L96 448C78.3 448 64 433.7 64 416L64 320zM192 480L192 512L448 512L448 416L192 416L192 480zM520 336C520 322.7 509.3 312 496 312C482.7 312 472 322.7 472 336C472 349.3 482.7 360 496 360C509.3 360 520 349.3 520 336z" />
+        </svg></button>
+      <!--<button onclick="downloadA4PDF()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+      <!--<path d="M352 96C352 78.3 337.7 64 320 64C302.3 64 288 78.3 288 96L288 306.7L246.6 265.3C234.1 252.8 213.8 252.8 201.3 265.3C188.8 277.8 188.8 298.1 201.3 310.6L297.3 406.6C309.8 419.1 330.1 419.1 342.6 406.6L438.6 310.6C451.1 298.1 451.1 277.8 438.6 265.3C426.1 252.8 405.8 252.8 393.3 265.3L352 306.7L352 96zM160 384C124.7 384 96 412.7 96 448L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 448C544 412.7 515.3 384 480 384L433.1 384L376.5 440.6C345.3 471.8 294.6 471.8 263.4 440.6L206.9 384L160 384zM464 440C477.3 440 488 450.7 488 464C488 477.3 477.3 488 464 488C450.7 488 440 477.3 440 464C440 450.7 450.7 440 464 440z" />
+        </svg></button>-->
+    </div>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="/themes/script.js"></script>
+</body>
+
+</html>

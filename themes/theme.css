@@ -1,0 +1,214 @@
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: #aaa;
+  user-select: none;
+}
+
+body.printing {
+  overflow: hidden;
+}
+
+.logo {
+  background: url('/styles/cu-black.png');
+  height: 150px;
+  width: 150px;
+  margin: 0;
+  padding: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pdf-loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity .25s ease;
+}
+
+.pdf-loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pdf-loader .spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #ddd;
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pdf-loader p {
+  font-size: 30px;
+  opacity: .7;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pdf-loader svg {
+  width: 5pc;
+  height: 5pc;
+  fill: currentColor;
+}
+
+.a4-wrapper {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.a4-container {
+  width: 794px;
+  height: 1123px;
+  overflow: hidden;
+  border: none;
+  /* ❌ border বাদ */
+  box-sizing: border-box;
+  border-radius: 0px;
+  margin: auto;
+  padding: 0;
+  background: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.5s ease, color 0.5s ease;
+  
+}
+
+/*.a4-container::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid black;
+      pointer-events: none;
+    }*/
+
+/* ---------- BUTTON BAR ---------- */
+.buttons-below {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 18px 0 28px;
+}
+
+/* ---------- BASE BUTTON ---------- */
+.buttons-below button {
+  width: 44px;
+  height: 44px;
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+  
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
+}
+
+/* ---------- ICON ---------- */
+.buttons-below button svg {
+  width: 20px;
+  height: 20px;
+  fill: #374151;
+}
+
+/* ---------- HOVER ---------- */
+.buttons-below button:hover {
+  background: #f9fafb;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- ACTIVE ---------- */
+.buttons-below button:active {
+  transform: scale(0.95);
+}
+
+/* ---------- KEYBOARD ---------- */
+.buttons-below button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 109, 245, 0.25);
+}
+
+/* ---------- PRINT ---------- */
+@media print {
+  .buttons-below {
+    display: none !important;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  
+  html,
+  body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    overflow: hidden;
+  }
+  
+  .a4-wrapper {
+    margin: 0;
+  }
+  
+  .a4-container {
+    width: 210mm;
+    height: 297mm;
+    
+    margin: 0;
+    padding: 0;
+    
+    box-shadow: none !important;
+    border: none !important;
+    
+    position: fixed;
+    top: 0;
+    left: 1px;
+    
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .buttons-below {
+    display: none !important;
+  }
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Allow / Discard Builder</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #f6f7f9;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .item {
+    padding: 6px 8px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+  }
+
+  .item input {
+    cursor: pointer;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+    font-family: monospace;
+    font-size: 0.85rem;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    margin-top: 10px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #4f46e5;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+</style>
+</head>
+<body>
+
+<h1>Allow / Discard Selector</h1>
+
+<div class="list" id="list"></div>
+
+<textarea id="output" readonly></textarea>
+<br>
+<button id="copyBtn">Copy Array</button>
+
+<script>
+const DATA = [
+    "MANT", "MARB", "MBCM", "MBGN", "MBOT", "BRGM", "EBGM", "MCEM", "MCMS", "MECO", "MEDC",
+    "MEGN", "MELT", "ACGM", "MCGM", "CLGM", "MENV", "FAGM", "DTGM", "MFNT", "MFRN", "MGEL",
+    "MGEO", "MHIS", "MHMD", "MHND", "MHUR", "MIHC", "MJOR", "MLIN", "MPRM", "MLST", "MLUR",
+    "MMCB", "MMTH", "MPAL", "MPER", "MPHI", "MPHS", "MPHY", "MPLS", "MPSY", "MRUS", "MSAN",
+    "MSSC", "MMKC", "MSOC", "MSTS", "MZOO", "MEBS", "MFST", "MHRM", "MHRT", "MMKT", "MSMT",
+    "MMDS", "MMLB", "MMUS", "MMHE", "MPPM", "MWOS",
+    "ITAC", "ENDC", "DIEM", "CADC", "ARTI"
+  ];
+
+const list = document.getElementById("list");
+const output = document.getElementById("output");
+
+function render() {
+  list.innerHTML = "";
+  DATA.forEach(code => {
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const label = document.createElement("span");
+    label.textContent = code;
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.addEventListener("change", updateOutput);
+
+    div.append(label, checkbox);
+    list.appendChild(div);
+  });
+}
+
+function updateOutput() {
+  const allowed = [...list.querySelectorAll("input:checked")]
+    .map(cb => `"${cb.previousSibling.textContent}"`);
+
+  output.value =
+    "[\n  " + allowed.join(",  ") + "\n]";
+}
+
+document.getElementById("copyBtn").onclick = () => {
+  output.select();
+  document.execCommand("copy");
+};
+
+render();
+updateOutput();
+</script>
+
+</body>
+</html>
