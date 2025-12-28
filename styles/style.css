@@ -639,7 +639,7 @@ label span {
 
 /* hover / active */
 .suggedtion-box div:hover {
-  background: #f2f4ff;
+  background: #f2f4f0;
 }
 
 /* empty state (optional) */
