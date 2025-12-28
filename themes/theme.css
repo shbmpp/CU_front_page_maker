@@ -15,7 +15,7 @@ body.printing {
 }
 
 .logo {
-  background: url('styles/cu-black.png');
+  background: url('../styles/cu-black.png');
   height: 150px;
   width: 150px;
   margin: 0;
