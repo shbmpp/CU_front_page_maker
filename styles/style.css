@@ -491,6 +491,10 @@ form {
   font-size: 0.9rem;
 }
 
+.dropdown-list li:nth-of-type(odd) {
+  background: #cccccc11;
+}
+
 .dropdown-list li:hover {
   background: #f2f4ff;
 }
@@ -634,7 +638,10 @@ label span {
   padding: 12px;
   cursor: pointer;
   white-space: nowrap;
-  border-block: 1px solid #77C7FD;
+}
+
+.suggestion-box div:nth-of-type(odd) {
+  background: #cccccc11;
 }
 
 /* hover / active */
