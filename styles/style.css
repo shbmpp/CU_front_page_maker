@@ -620,7 +620,7 @@ label span {
   border-radius: 6px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   list-style: none;
-  padding: 4px 0;
+  padding: 0;
   margin: 0;
   max-height: 100px;
   overflow-y: auto;
@@ -630,10 +630,11 @@ label span {
 }
 
 /* individual suggestion item */
-.suggedtion-box div {
-  padding: 8px 12px;
+.suggestion-box div {
+  padding: 12px;
   cursor: pointer;
   white-space: nowrap;
+  border-block: 1px solid #77C7FD;
 }
 
 /* hover / active */
