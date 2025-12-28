@@ -209,7 +209,6 @@ form.addEventListener("submit", e => {
   // show processing state
   submitBtn.classList.add("is-processing");
   submitBtn.disabled = true;
-  
   // collect & save
   const STD_INFO = getFormData(e);
   sessionStorage.setItem("STD_INFO", JSON.stringify(STD_INFO));
@@ -580,11 +579,10 @@ function currentParity() {
 
 function pickSemester(sems) {
   if (!sems.length) return null;
-  if (semesterInput.value) {
+  /*if (semesterInput.value) {
     semesterInput.value;
-    
     return;
-  }
+  }*/
   const parity = currentParity();
   
   // highest semester ≤ maxSem with correct parity
@@ -614,10 +612,8 @@ function filterByMonth(sems) {
 const validateSemester = debounce(() => {
   const ctx = getStudentContext(rollInput, regInput);
   if (!ctx) return;
-  
   const admissionYY = getAdmissionYY(rollInput, regInput);
   if (admissionYY == null) return;
-  
   const maxSem = getMaxSemester({
     admissionYY,
     isH: ctx.isH
