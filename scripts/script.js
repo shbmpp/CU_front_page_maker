@@ -176,11 +176,11 @@ const getFormData = e => {
 
 async function safeRedirect(theme) {
   const url = `./themes/${theme}/index.html`;
-
+  
   try {
     const res = await fetch(url, { method: "HEAD" });
     if (!res.ok) throw new Error("Page not found");
-
+    
     window.location.href = url;
   } catch {
     alert("Selected theme is not available.");
@@ -209,13 +209,13 @@ form.addEventListener("submit", e => {
   // show processing state
   submitBtn.classList.add("is-processing");
   submitBtn.disabled = true;
-  // collect & save
-  const STD_INFO = getFormData(e);
-  sessionStorage.setItem("STD_INFO", JSON.stringify(STD_INFO));
   
   // let browser paint "Generating..." first
   requestAnimationFrame(() => {
     setTimeout(() => {
+      // collect & save
+      const STD_INFO = getFormData(e);
+      sessionStorage.setItem("STD_INFO", JSON.stringify(STD_INFO));
       safeRedirect(STD_INFO.theme);
     }, 3000); // ⏳ 3 sec delay
   });
