@@ -190,7 +190,7 @@ svg {
 /* form layout */
 form {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   border-radius: 10px;
   background: #ffffff;
@@ -799,9 +799,9 @@ article {
 .buttons {
   display: flex;
   gap: 14px;
-  margin: 0;
+  margin: 20px;
   justify-content: flex-end;
-  
+  position: relative;
 }
 
 /* base button */
@@ -816,7 +816,6 @@ article {
   border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 500;
-  position: relative;
   text-transform: uppercase;
   /* 🔑 anchor */
   overflow: hidden;
