@@ -8,114 +8,121 @@
   <base href="/CU_front_page_maker/">
   <link rel="stylesheet" href="themes/theme.css">
   <style>
-/* ================= ROOT ================= */
-.classic {
-  height: 95%;
-  width: 95%;
-  padding: 32px;
-  box-sizing: border-box;
-
-  border: 10px double #000;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  letter-spacing: 0.03em;
-}
-
-/* ================= UNIVERSITY HEADER ================= */
-.classic .univ-logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 160px;
-  gap: 18px;
-}
-
-.classic .univ-logo p {
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-align: center;
-}
-
-/* ================= CONTENT AREA ================= */
-.classic .detail-container {
-  margin: auto 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-}
-
-/* ================= TITLE / TOPIC ================= */
-.classic .topic {
-  font-size: 1.6rem;
-  font-weight: 700;
-  padding: 0.4em 1.2em;
-  border-top: 2px solid #000;
-  border-bottom: 2px solid #000;
-  text-align: center;
-}
-
-/* ================= COLLEGE NAME ================= */
-.classic .college {
-  font-size: 1.8rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  padding-bottom: 8px;
-  position: relative;
-}
-
-.classic .college::after {
-  content: "";
-  position: absolute;
-  left: 10%;
-  right: 10%;
-  bottom: 0;
-  height: 2px;
-  background: #000;
-}
-
-/* ================= DETAILS BOX ================= */
-.grp {
-  width: 75%;
-  padding: 22px 26px;
-
-  border: 2px solid #000;
-
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* ================= INFO ROWS ================= */
-.classic .info {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  align-items: baseline;
-
-  font-size: 1.15rem;
-  line-height: 1.6;
-}
-
-.classic .info p {
-  margin: 0;
-  font-weight: 500;
-}
-
-.classic .info span {
-  font-weight: 700;
-}
-
-/* ================= SMALL TWEAKS ================= */
-.classic .paperType {
-  margin-left: 6px;
-  font-weight: 600;
-}  </style>
+    /* ================= ROOT ================= */
+    .classic {
+      height: 95%;
+      width: 95%;
+      padding: 32px;
+      box-sizing: border-box;
+      
+      border: 10px double #000;
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+      font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      letter-spacing: 0.03em;
+    }
+    
+    /* ================= UNIVERSITY HEADER ================= */
+    .classic .univ-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 160px;
+      gap: 18px;
+    }
+    
+    .classic .univ-logo p {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-align: center;
+    }
+    
+    /* ================= CONTENT AREA ================= */
+    .classic .detail-container {
+      margin: auto 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    /* ================= TITLE / TOPIC ================= */
+    .classic .topic {
+      font-size: 1.6rem;
+      font-weight: 700;
+      padding: 0.4em 1.2em;
+      border-top: 2px solid #000;
+      border-bottom: 2px solid #000;
+      text-align: center;
+    }
+    
+    /* ================= COLLEGE NAME ================= */
+    .classic .college {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding-bottom: 8px;
+      position: relative;
+    }
+    
+    .classic .college::after {
+      content: "";
+      position: absolute;
+      left: 1%;
+      right: 1%;
+      bottom: 0;
+      height: 2px;
+      background: #000;
+    }
+    
+    /* ================= DETAILS BOX ================= */
+    .grp {
+      width: 75%;
+      padding: 22px 26px;
+      border: 2px solid #000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    /* ================= INFO ROWS ================= */
+    .classic .info {
+      display: flex;
+      flex-wrap: wrap;
+      /* লম্বা হলে নিচে নামবে */
+      align-items: baseline;
+      gap: 0.35em;
+      /* খুব হালকা, শব্দের মতো */
+      font-size: 1.15rem;
+      line-height: 1.6;
+      padding-left: 6em;
+      text-indent: -6em;
+    }
+    
+    .classic .info p {
+      margin: 0;
+      font-weight: 500;
+      white-space: nowrap;
+      /* Name: একসাথে থাকবে */
+    }
+    
+    .classic .info span {
+      font-weight: 700;
+      word-break: break-word;
+      /* বড় কন্টেন্ট ভাঙবে */
+    }
+    
+    /* Paper type */
+    .classic .paperType {
+      margin-left: 0.3em;
+      font-weight: 600;
+    }
+  </style>
 </head>
 
 <body>
