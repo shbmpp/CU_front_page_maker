@@ -193,7 +193,7 @@ form.addEventListener("submit", e => {
   
   let ok = true;
   const submitBtn = form.querySelector('button[type="submit"]');
-  const resetBtn = form.querySelector('button[type="submit"]');
+  const resetBtn = form.querySelector('button[type="reset"]');
   
   // validation
   form.querySelectorAll(".placeholder-wrapper").forEach(w => {
