@@ -8,96 +8,114 @@
   <base href="/CU_front_page_maker/">
   <link rel="stylesheet" href="themes/theme.css">
   <style>
-    .classic {
-      height: 95%;
-      width: 95%;
-      padding: 20px;
-      box-sizing: border-box;
-      border: 8px double black;
-      display: flex;
-      flex-direction: column;
-      justify-content: start;
-      align-items: center;
-      font-family: fantasy
-    }
-    
-    .classic .univ-logo {
-      display: flex;
-      place-items: center;
-      flex-direction: column;
-      margin-top: 200px;
-      position: relative;
-    }
-    
-    .classic .univ-logo p {
-      font-size: 20px;
-      margin-top: 20px;
-      font-weight: 900;
-      font-style: normal;
-      transform: scale(1.5, 2);
-    }
-    
-    .classic .detail-container {
-      display: flex;
-      flex-direction: column;
-      width: 75%;
-      margin: auto;
-      position: relative;
-    }
-    
-    .grp {
-      display: flex;
-      flex-direction: column;
-      padding : 10px;
-      border: 2px solid black;
-    }
-    
-    .classic .info {
-      display: flex;
-      align-items: center;
-      justify-content: stretch;
-      padding: 0 1em;
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: 300;
-    }
-    
-    .classic .info span {
-      font-weight: 700;
-    }
-    
-    .classic p {
-      margin: 5px;
-      font-weight: 300;
-    }
-    
-    .classic .topic {
-      align-self: center;
-      padding: .51em;
-      margin-bottom: 10px;
-      border-block: 1px solid black;
-    }
-    
-    .classic .college {
-      margin: 10px;
-      padding: 20px 0;
-      font-size: 1.7rem;
-      font-weight: 800;
-      position: relative;
-      display: inline-block;
-    }
-    
-    .classic .college::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 15px;
-      /* padding অনুযায়ী adjust */
-      height: 2px;
-      background: black;
-    }
-  </style>
+/* ================= ROOT ================= */
+.classic {
+  height: 95%;
+  width: 95%;
+  padding: 32px;
+  box-sizing: border-box;
+
+  border: 10px double #000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  letter-spacing: 0.03em;
+}
+
+/* ================= UNIVERSITY HEADER ================= */
+.classic .univ-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 160px;
+  gap: 18px;
+}
+
+.classic .univ-logo p {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+/* ================= CONTENT AREA ================= */
+.classic .detail-container {
+  margin: auto 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* ================= TITLE / TOPIC ================= */
+.classic .topic {
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding: 0.4em 1.2em;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  text-align: center;
+}
+
+/* ================= COLLEGE NAME ================= */
+.classic .college {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding-bottom: 8px;
+  position: relative;
+}
+
+.classic .college::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  height: 2px;
+  background: #000;
+}
+
+/* ================= DETAILS BOX ================= */
+.grp {
+  width: 75%;
+  padding: 22px 26px;
+
+  border: 2px solid #000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ================= INFO ROWS ================= */
+.classic .info {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: baseline;
+
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+.classic .info p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.classic .info span {
+  font-weight: 700;
+}
+
+/* ================= SMALL TWEAKS ================= */
+.classic .paperType {
+  margin-left: 6px;
+  font-weight: 600;
+}  </style>
 </head>
 
 <body>
