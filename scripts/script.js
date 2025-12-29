@@ -645,12 +645,14 @@ const validateSemester = debounce(() => {
 // subject validation...
 const makeSubjects = ({ major = [], minor = [] }, d) => {
   const MAJOR = new Set(major);
-  const MINOR = new Set(minor);
+  const MINOR = new Set(d === 1 ? minor.filter(v => !v.endsWith("GM")) : minor);
+  const MDC_BCOM = new Set(d === 1 ? minor.filter(v => v.endsWith("GM")) : []);
   const COM_SEC = ["ITAC", "ENDC", "DIEM", "CADC", "ARTI"];
   
   return {
     MAJOR,
     MINOR,
+    MDC_BCOM,
     IDC: new Set(
       d === 1 ? ["MACD", "MICD", "IEED"] : [
         "ANTD", "ARBD", "BCMD", "BGND", "BOTD", "CEMD", "CMSD", "ECOD", "EDCD", "EGND", "ELTD",
@@ -673,8 +675,8 @@ const makeSubjects = ({ major = [], minor = [] }, d) => {
 
 const SUBJECTS = {
   1: makeSubjects({
-    major: ["CACM", "BRCM", "EBCM", "DTCM", "ACCM", "MSCM", "CLCM"],
-    minor: ["CAGM", "BRGM", "EBGM", "DTGM", "ACGM", "MSGM", "CLGM",
+    major: ["CACM", "FACM", "BRCM", "EBCM", "DTCM", "ACCM", "MSCM", "CLCM"],
+    minor: ["CAGM", "FAGM", "BRGM", "EBGM", "DTGM", "ACGM", "MSGM", "CLGM",
       "MCGM", "MPRM", "MEBS", "MMKC", "MHRM", "MMKT", "MSMT", "MPPM"
     ]
   }, 1),
@@ -748,7 +750,7 @@ const buildSet = (subj, rule, track) => {
   }
   
   const base =
-    track === "H" ? [subj.MAJOR, subj.MINOR, subj.SEC.H] : [subj.MINOR, subj.SEC.G];
+    track === "H" ? [subj.MAJOR, subj.MINOR, subj.SEC.H] : [subj.MINOR, subj.MDC_BCOM, subj.SEC.G];
   
   if (rule.idc) base.push(subj.IDC);
   if (rule.si) base.push(subj.SI[track]);
@@ -781,25 +783,25 @@ function resolveAllowedSubjects({ sem, dept, isH }) {
   switch (sem) {
     case "I":
     case "III":
-      return isH ?
+      return !(dept === 1 && !isH) ? (isH ?
         add(S.MAJOR, S.MINOR, S.SEC.H, S.IDC) :
-        add(S.MINOR, S.SEC.G, S.IDC);
+        add(S.MINOR, S.SEC.G, S.IDC)) : add(S.MDC_BCOM, S.MINOR, S.SEC.G, S.IDC);
       
     case "II":
     case "VI":
-      return isH ?
+      return !(dept === 1 && !isH) ? isH ?
         add(S.MAJOR, S.MINOR, S.SEC.H, S.IDC, S.SI.H) :
-        add(S.MINOR, S.SEC.G, S.IDC, S.SI.G);
+        add(S.MINOR, S.SEC.G, S.IDC, S.SI.G) : add(S.MDC_BCOM, S.MINOR.S.SEC.G, S.IDC, S.SI.G);
       
     case "IV":
-      return isH ?
+      return !(dept === 1 && !isH) ? (isH ?
         add(S.MAJOR, S.MINOR, S.SI.H) :
-        add(S.MINOR, S.SI.G);
+        add(S.MINOR, S.SI.G)) : add(S.MDC_BCOM, S.MINOR, S.SI.G);
       
     case "V":
-      return isH ?
+      return !(dept === 1 && !isH) ? (isH ?
         add(S.MAJOR, S.MINOR) :
-        new Set(S.MINOR);
+        new Set(S.MINOR)) : add(S.MDC_BCOM, S.MINOR);
       
     case "VII":
     case "VIII":
@@ -1043,9 +1045,11 @@ const validatePaper = debounce(() => {
     filtered = filterMap(baseMap, ["DSCC", "SEC", "RES"]);
   }
   else if (S.MINOR.has(subj)) {
-    filtered = ctx.isCom ?
-      filterMap(baseMap, ["DSCC", "CC", "MN", "MDC"]) :
-      filterMap(baseMap, ["CC", "MN", "MDC", "SEC"]);
+    filtered = ctx.dept === 1 ? filterMap(baseMap, ["MN"]) :
+      filterMap(baseMap, ["CC", "MN", "SEC"]);
+  }
+  else if (S.MDC_BCOM.has(subj)) {
+     filtered = (ctx.dept === 1 && !isH) ? filterMap(baseMap, ["DSCC", "CC", "MDC"]) : [];
   }
   else if (
     (isH && S.SEC.H.has(subj)) ||
