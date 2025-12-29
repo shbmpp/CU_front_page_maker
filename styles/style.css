@@ -600,6 +600,9 @@ form {
 /* example text */
 .example-text {
   margin: 6px;
+  display: flex; 
+  gap: 5px;
+align-items: center;
   font-size: 0.75rem;
   color: #888;
   font-style: italic;
