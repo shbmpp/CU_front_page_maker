@@ -1049,7 +1049,7 @@ const validatePaper = debounce(() => {
       filterMap(baseMap, ["CC", "MN", "SEC"]);
   }
   else if (S.MDC_BCOM.has(subj)) {
-     filtered = (ctx.dept === 1 && !isH) ? filterMap(baseMap, ["DSCC", "CC", "MDC"]) : [];
+    filtered = (ctx.dept === 1 && !isH) ? filterMap(baseMap, ["MDC"]) : [];
   }
   else if (
     (isH && S.SEC.H.has(subj)) ||
