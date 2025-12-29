@@ -231,7 +231,7 @@ document.addEventListener("click", () => {
 
 window.addEventListener("pageshow", () => {
   const btn = document.querySelector('button[type="submit"]');
-  const rbtn = document.querySelector('button[type="submit"]');
+  const rbtn = document.querySelector('button[type="reset"]');
   if (btn) {
     btn.classList.remove("is-processing");
     btn.disabled = false;
