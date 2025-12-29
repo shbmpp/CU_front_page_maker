@@ -292,7 +292,7 @@ form {
 }
 
 /* shared status icon base */
-.field-status {
+.placeholder-wrapper .field-status {
   position: absolute;
   right: 30px;
   top: 35%;
@@ -302,7 +302,7 @@ form {
 }
 
 /* default: nothing */
-.field-status::before {
+.placeholder-wrapper .field-status::before {
   content: "";
   width: 16px;
   height: 16px;
@@ -609,9 +609,9 @@ form {
 /* example text */
 .example-text {
   margin: 6px;
-  display: flex; 
+  display: flex;
   gap: 5px;
-align-items: center;
+  align-items: center;
   font-size: 0.75rem;
   color: #888;
   font-style: italic;
@@ -719,6 +719,25 @@ label span {
 .add-option:has(input:checked) {
   background: #eef2ff;
   border-color: #4f6df5;
+}
+
+.add-option .field-status {
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  background-color: #4f6df5;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  z-index: 10;
+  mask-image: url("data:image/svg+xml;utf8,\<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'><path d='M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM296 408L296 344L232 344C218.7 344 208 333.3 208 320C208 306.7 218.7 296 232 296L296 296L296 232C296 218.7 306.7 208 320 208C333.3 208 344 218.7 344 232L344 296L408 296C421.3 296 432 306.7 432 320C432 333.3 421.3 344 408 344L344 344L344 408C344 421.3 333.3 432 320 432C306.7 432 296 421.3 296 408z'/></svg>");
+}
+
+/* ✅ THIS is the key line */
+.add-option:has(input:checked) .field-status {
+  opacity: 0;
 }
 
 .add-option input {
@@ -1012,7 +1031,7 @@ footer picture>*:not(a) {
   }
   
   .addContainer {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     width: 380px;
   }
   
