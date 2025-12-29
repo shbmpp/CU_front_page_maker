@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Classic</title>
   <base href="/CU_front_page_maker/">
-  <link rel="stylesheet" href="themes/theme.css">
+  <link rel="stylesheet" href="/themes/theme.css">
   <style>
     /* ================= ROOT ================= */
     .classic {
@@ -17,9 +17,11 @@
       border: 10px double #000;
       display: flex;
       flex-direction: column;
+      justify-content: space-evenly;
       align-items: center;
       font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
       letter-spacing: 0.03em;
+      position: relative;
     }
     
     /* ================= UNIVERSITY HEADER ================= */
@@ -27,8 +29,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 160px;
       gap: 18px;
+      position: relative;
+      margin: auto 0;
     }
     
     .classic .univ-logo p {
@@ -46,35 +49,6 @@
       flex-direction: column;
       align-items: center;
       gap: 28px;
-    }
-    
-    /* ================= TITLE / TOPIC ================= */
-    .classic .topic {
-      font-size: 1.6rem;
-      font-weight: 700;
-      padding: 0.4em 1.2em;
-      border-top: 2px solid #000;
-      border-bottom: 2px solid #000;
-      text-align: center;
-    }
-    
-    /* ================= COLLEGE NAME ================= */
-    .classic .college {
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      padding-bottom: 8px;
-      position: relative;
-    }
-    
-    .classic .college::after {
-      content: "";
-      position: absolute;
-      left: 1%;
-      right: 1%;
-      bottom: 0;
-      height: 2px;
-      background: #000;
     }
     
     /* ================= DETAILS BOX ================= */
@@ -111,6 +85,35 @@
       text-align: left;
     }
     
+    /* ================= TITLE / TOPIC ================= */
+    .classic .info .topic {
+      font-size: 1.6rem;
+      font-weight: 700;
+      padding: 0.4em 1.2em;
+      /*border-block: 2px solid #000;*/
+      background: #00000021;
+      text-align: center;
+    }
+    
+    /* ================= COLLEGE NAME ================= */
+    .classic .info .college {
+      font-size: 1.8rem;
+      letter-spacing: 0.08em;
+      padding-bottom: 8px;
+      position: relative;
+      font-weight: 800;
+      text-align: center;
+    }
+    
+    .classic .college::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: #000;
+    }
   </style>
 </head>
 
@@ -129,9 +132,11 @@
           <p> UNIVERSITY OF CALCUTTA </p>
         </div>
         <div class="detail-container">
-          <div class="info topic">
+          <div class="info">
+            <span class="topic"></span>
           </div>
-          <div class="info college">
+          <div class="info">
+            <span class="college"></span>
           </div>
           <div class="grp">
             <div class="info">
@@ -160,7 +165,7 @@
             </div>
             <div class="info">
               <p>Paper: </p>
-              <span class="paper"></span>&nbsp;<span class="paperType"></span>
+              <span class="paper"></span><span class="paperType"></span>
             </div>
             <div class="info">
               <p>Session: </p>
@@ -218,7 +223,7 @@
   </footer>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="themes/script.js"></script>
+  <script src="/themes/script.js"></script>
 </body>
 
 </html>
