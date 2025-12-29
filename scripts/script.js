@@ -165,7 +165,7 @@ const getFormData = e => {
   const { subject_code, roll_number } = data;
   
   if (subject_code && APP_DATA?.codeToSubject)
-    data.subject = APP_DATA.codeToSubject[subject_code] || "";
+    data.subject = APP_DATA.codeToSubject[subject_code] || subject_code;
   
   const [, mid] = roll_number.split("-");
   data.dept = roll_number[2];
