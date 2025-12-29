@@ -383,9 +383,18 @@ form {
   color: #e74c3c;
 }
 
+.placeholder-wrapper.is-invalid .example-text svg {
+  fill: #e74c3c;
+}
+
 .dropdown.is-invalid .dropdown-display {
   border-color: #e74c3c;
   box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+}
+
+.placeholder-wrapper .example-text svg {
+  transition: transform 0.25s ease;
+  transform: rotate(22deg) skewX(8deg);
 }
 
 /* =========================
