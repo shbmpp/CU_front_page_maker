@@ -97,7 +97,7 @@ const TEMPLATE_MAP = {
 };
 
 const VISIBILITY_RULES = {
-  name: s => s.addName === "on" && !!s.student_name,
+  name: s => (s.addName === "on" && !!s.student_name),
   college: s => s.addClgName === "on",
   session: s => s.addSession === "on",
   topic: s => !!s.topic_name
