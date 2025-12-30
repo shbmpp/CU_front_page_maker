@@ -90,7 +90,7 @@ const TEMPLATE_MAP = {
   roll_number: s => s.roll_number,
   course: s => Stream(s.roll_number),
   semester: s => s.semester,
-  subject: s => `s.subject ${s.addSubj === 'on' ? (s.subject_code) : ""}`,
+  subject: s => `${s.subject} ${s.addSubj === 'on' ? (s.subject_code) : ""}`,
   paper: s => s.paper,
   paperType: s => s.paperType ? `(${s.paperType})` : "",
   session: s => s.session
