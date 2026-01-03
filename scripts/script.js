@@ -597,6 +597,7 @@ function pickSemester(sems) {
       (parity === "ODD" && isOdd(sem)) ||
       (parity === "EVEN" && !isOdd(sem))
     ) {
+      
       return sem;
     }
   }
@@ -619,8 +620,9 @@ const validateSemester = debounce(() => {
   if (!ctx) return;
   const admissionYY = getAdmissionYY(rollInput, regInput);
   if (admissionYY == null) return;
+  const m = new Date().getMonth() + 1; // 1–12
   const maxSem = getMaxSemester({
-    admissionYY,
+    admissionYY: m > 1 ? admissionYY : admissionYY + 1,
     isH: ctx.isH
   });
   
@@ -1014,10 +1016,10 @@ const validatePaper = debounce(() => {
   };
   const semPrefixesCom = {
     I: { H: { "DSCC": [1], "MN": [1], "SEC": [1], "IDC": [1], "MDC": [1] }, G: { /*"DSCC": [1],*/ "MN": [1], "SEC": [1], "IDC": [1], "MDC": [1] } },
-    II: { H: { "DSCC": [2], "MN": [2], "SEC": [2], "IDC": [2], "MDC": [2], "SI": [1] }, G: { /*"DSCC": [2], */"MN": [2], "SEC": [2], "IDC": [2], "MDC": [2], "SI": [1] } },
-    III: { H: { "DSCC": [3, 4], "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3, 4] }, G: { /*"DSCC": [3, 4], */"MN": [3], "SEC": [3], "IDC": [3], "MDC": [3,4] } },
+    II: { H: { "DSCC": [2], "MN": [2], "SEC": [2], "IDC": [2], "MDC": [2], "SI": [1] }, G: { /*"DSCC": [2], */ "MN": [2], "SEC": [2], "IDC": [2], "MDC": [2], "SI": [1] } },
+    III: { H: { "DSCC": [3, 4], "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3, 4] }, G: { /*"DSCC": [3, 4], */ "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3, 4] } },
     IV: { H: { "DSCC": [5, 6, 7, 8], "MN": [4], "SI": [1] }, G: { /*"DSCC": [5, 6, 7, 8],*/ "MDC": [5, 6, 7, 8], "MN": [4], "SI": [1] } },
-    V: { H: { "DSCC": [9, 10, 11], "MN": [5, 6] }, G: { /*"DSCC": [9, 10, 11], */"MDC": [9, 10, 11], "MN": [5, 6] } },
+    V: { H: { "DSCC": [9, 10, 11], "MN": [5, 6] }, G: { /*"DSCC": [9, 10, 11], */ "MDC": [9, 10, 11], "MN": [5, 6] } },
     VI: { H: { "DSCC": [13, 14, 15, 12], "MN": [7, 8], "SI": [1] }, G: { /*"DSCC": [13, 14, 15, 12],*/ "MDC": [13, 14, 15, 12], "MN": [7, 8], "SI": [1] } },
     VII: { H: { "DSCC": [16, 17, 18, 19, 20], "RES": [1] }, G: {} },
     VIII: { H: { "DSCC": [20, 26, 22, 23, 24, 25], "RES": [2] }, G: {} }
