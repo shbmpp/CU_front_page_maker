@@ -38,13 +38,13 @@
         <div class="placeholder-wrapper ">
           <input type="text" inputmode="numeric" pattern="[0-9]*" name="registration_number" id="regNo" placeholder=" " required>
           <label for="regNo">University Registration Number <span style="color: red">*</span></label>
-          <div class="example-text">Ex. 012-3456-7890-12</div>
+          <div class="example-text">e.g. 012-3456-7890-12</div>
           <span class="field-status"></span>
         </div>
         <div class="placeholder-wrapper" style="flex: 1;">
           <input type="text" inputmode="numeric" pattern="[0-9]*" name="roll_number" id="rollNo" placeholder=" " required>
           <label for="rollNo">University Roll Number <span style="color: red">*</span></label>
-          <div class="example-text">Ex. 012345-67-8901</div>
+          <div class="example-text">e.g. 012345-67-8901</div>
           <span class="field-status"></span>
         </div>
         <div class="placeholder-wrapper disable" style="flex: 1;">
@@ -62,7 +62,7 @@
         <div class="placeholder-wrapper disable">
           <input type="text" id="topic" placeholder=" " name="topic_name" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9&().\-\s]/g, '').replace(/\s{2,}/g, ' ')" onblur="this.value=this.value.trim()">
           <label for="topic">Assignment Name (description)</label>
-          <div class="example-text">Ex. SAHITYA O GALPO / BASIC ALGEBRA</div>
+          <div class="example-text">e.g. SAHITYA O GALPO / BASIC ALGEBRA</div>
           <span class="field-status hide-valid"></span>
         </div>
         <div class="placeholder-wrapper dropdown disable" id="semesterBox">
@@ -85,7 +85,7 @@
           </ul>
           
           <label>Semester <span style="color:red">*</span></label>
-          <div class="example-text">Ex. I / IV</div>
+          <div class="example-text">e.g. I / IV</div>
           
           <!-- hidden value holder -->
           <input type="hidden" name="semester" id="semester" required>
@@ -93,7 +93,7 @@
         <div class="placeholder-wrapper disable">
           <input type="text" id="subjectCode" name="subject_code" placeholder=" " required>
           <label for="subjectCode">Subject Code <span style="color:red">*</span></label>
-          <div class="example-text">Ex. MCMS / CACD / PHIM</div>
+          <div class="example-text">e.g. MCMS / CACD / PHIM</div>
           <span class="field-status subj"></span>
           <div class="suggestions" id="subjectSuggestions"></div>
         </div>
@@ -110,7 +110,7 @@
             </ul>
             
             <label>Paper Code <span style="color:red">*</span></label>
-            <div class="example-text">Ex. DSCC-2 / CC-3 / MN-1</div>
+            <div class="example-text">e.g. DSCC-2 / CC-3 / MN-1</div>
             <span class="field-status"></span>
             <!-- hidden value holder -->
             <input type="hidden" name="paper" id="paper" required>
