@@ -482,6 +482,11 @@ function withCaret(input, fn) {
 }
 
 function confirmMismatch(message, delay = 3000) {
+  if (message == null) {
+    alert("Registration expired!\nNothing to do...");
+    return Promise.resolve(false);
+  }
+  
   return new Promise(resolve => {
     setTimeout(() => resolve(confirm(message)), delay);
   });
@@ -512,40 +517,52 @@ async function validateInputs(ctx, collegeCodes, rollInput, regInput) {
     return false;
   }
   
-  const c1 = parseInt(r.slice(0, 3), 10);
-  const c2 = parseInt(rl.slice(3, 6), 10);
-  
   const y1 = parseInt(r.slice(-2), 10);
   const y2 = parseInt(rl.slice(0, 2), 10);
   const nowYY = new Date().getFullYear() % 100;
   
-  ok = !isNaN(y1) &&
-    !isNaN(y2) &&
-    y1 <= y2 &&
-    Math.abs(y1 - nowYY) < 5;
+  // 🔒 HARD RULE: reg year must be smaller than roll year
+  const invalidYear =
+    isNaN(y1) || isNaN(y2) ||
+    y1 > y2 ||
+    y1 > nowYY ||
+    y2 > nowYY;
   
-  // 🔴 mismatch → confirm না হওয়া পর্যন্ত false
+  if (invalidYear) {
+    disableFields(true);
+    setValidationState(regInput, false, ROLL_AND_REG_RULES.reg.max);
+    setValidationState(rollInput, false, ROLL_AND_REG_RULES.roll.max);
+    return false;
+  }
+  // remaining soft rules
+  ok = Math.abs(y1 - nowYY) < 5;
+  
+  const c1 = parseInt(r.slice(0, 3), 10);
+  const c2 = parseInt(rl.slice(3, 6), 10);
+  
   const collegeMismatch = c1 !== c2;
   const yearMismatch = y1 !== y2;
+  const expired = Math.abs(y1 - nowYY) >= 5;
   
-  if (collegeMismatch || yearMismatch) {
+  if (collegeMismatch || yearMismatch || expired) {
     
     disableFields(true);
     setValidationState(regInput, false, ROLL_AND_REG_RULES.reg.max);
     setValidationState(rollInput, false, ROLL_AND_REG_RULES.roll.max);
     
-    let msg;
+    let msg = null;
     
-    if (collegeMismatch && yearMismatch)
-      msg = "Your Roll Number, Registration and College do not match, please cross check.\nDo you want to continue?";
-    else if (collegeMismatch)
-      msg = "Your College and Registration do not match, please cross check.\nDo you want to continue?";
-    else
-      msg = "Your Roll Number and Registration do not seem right.\nDo you want to continue?";
+    if (!expired) {
+      if (collegeMismatch && yearMismatch)
+        msg = "Your Roll Number, Registration and College do not match, please cross check.\nDo you want to continue?";
+      else if (collegeMismatch)
+        msg = "Your College and Registration do not match, please cross check.\nDo you want to continue?";
+      else if (yearMismatch)
+        msg = "Your Roll Number and Registration do not seem right.\nDo you want to continue?";
+    }
     
     ok = await confirmMismatch(msg);
   }
-  
   
   setValidationState(regInput, ok, ROLL_AND_REG_RULES.reg.max);
   setValidationState(rollInput, ok, ROLL_AND_REG_RULES.roll.max);
