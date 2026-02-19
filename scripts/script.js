@@ -537,11 +537,11 @@ async function validateInputs(ctx, collegeCodes, rollInput, regInput) {
     let msg;
     
     if (collegeMismatch && yearMismatch)
-      msg = "Your Roll Number, Registration and College do not match.\nDo you want to continue?";
+      msg = "Your Roll Number, Registration and College do not match, please cross check.\nDo you want to continue?";
     else if (collegeMismatch)
-      msg = "Your College and Registration do not match.\nDo you want to continue?";
+      msg = "Your College and Registration do not match, please cross check.\nDo you want to continue?";
     else
-      msg = "Your Roll Number and Registration do not seem right, please cross check.\nDo you want to continue?";
+      msg = "Your Roll Number and Registration do not seem right.\nDo you want to continue?";
     
     ok = await confirmMismatch(msg);
   }
