@@ -846,7 +846,7 @@ function resolveAllowedSubjects({ sem, dept, isH }) {
     case "VI":
       return !(dept === 1 && !isH) ? isH ?
         add(S.MAJOR, S.MINOR, S.SEC.H, S.IDC, S.SI.H) :
-        add(S.MINOR, S.SEC.G, S.IDC, S.SI.G) : add(S.MDC_BCOM, S.MINOR.S.SEC.G, S.IDC, S.SI.G);
+        add(S.MINOR, S.SEC.G, S.IDC, S.SI.G) : add(S.MDC_BCOM, S.MINOR, S.SEC.G, S.IDC, S.SI.G);
       
     case "IV":
       return !(dept === 1 && !isH) ? (isH ?
