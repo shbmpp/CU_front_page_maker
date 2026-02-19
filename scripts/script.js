@@ -519,11 +519,9 @@ async function validateInputs(ctx, collegeCodes, rollInput, regInput) {
   const y2 = parseInt(rl.slice(0, 2), 10);
   const nowYY = new Date().getFullYear() % 100;
   
-  // year rules (college match বাদে)
   ok = !isNaN(y1) &&
     !isNaN(y2) &&
     y1 <= y2 &&
-    Math.abs(y1 - y2) < 5 &&
     Math.abs(y1 - nowYY) < 5;
   
   // 🔴 mismatch → confirm না হওয়া পর্যন্ত false
