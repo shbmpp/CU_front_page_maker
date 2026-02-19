@@ -481,40 +481,72 @@ function withCaret(input, fn) {
   input.setSelectionRange(newPos, newPos);
 }
 
+function confirmCollegeMismatch() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const yes = confirm(
+        "Your college and registration do not match.\nDo you want to continue?"
+      );
+      resolve(yes);
+    }, 3000); // delay (ms)
+  });
+}
+
+
 // ================= MAIN VALIDATION =================
-function validateInputs(ctx, collegeCodes, rollInput, regInput) {
-  
-  // attach guards once (safe even if called multiple times)
+async function validateInputs(ctx, collegeCodes, rollInput, regInput) {
+
   attachGuard(regInput, ROLL_AND_REG_RULES.reg, collegeCodes);
   attachGuard(rollInput, ROLL_AND_REG_RULES.roll, collegeCodes);
-  
-  // normalize
+
   const r = onlyDigits(regInput.value).slice(0, ROLL_AND_REG_RULES.reg.max);
   const rl = onlyDigits(rollInput.value).slice(0, ROLL_AND_REG_RULES.roll.max);
-  
+
   const regValid = ROLL_AND_REG_RULES.reg.validate(r, collegeCodes);
   const rollValid = ROLL_AND_REG_RULES.roll.validate(rl, collegeCodes);
-  
+
   regInput.value = formatWith(r, ROLL_AND_REG_RULES.reg.parts);
   rollInput.value = formatWith(rl, ROLL_AND_REG_RULES.roll.parts);
-  
+
   setValidationState(regInput, regValid, ROLL_AND_REG_RULES.reg.max);
   setValidationState(rollInput, rollValid, ROLL_AND_REG_RULES.roll.max);
-  
+
   let ok = regValid && rollValid;
-  
-  // cross-check reg vs roll
-  if (ok) {
-    ok =
-      r.slice(0, 3) === rl.slice(3, 6) &&
-      r.slice(-2) === rl.slice(0, 2);
-    
-    setValidationState(regInput, ok, ROLL_AND_REG_RULES.reg.max);
-    setValidationState(rollInput, ok, ROLL_AND_REG_RULES.roll.max);
+
+  if (!ok) {
+    disableFields(true);
+    return false;
   }
-  
+
+  const c1 = parseInt(r.slice(0, 3), 10);
+  const c2 = parseInt(rl.slice(3, 6), 10);
+
+  const y1 = parseInt(r.slice(-2), 10);
+  const y2 = parseInt(rl.slice(0, 2), 10);
+  const nowYY = new Date().getFullYear() % 100;
+
+  // year rules (college match বাদে)
+  ok =
+    !isNaN(y1) &&
+    !isNaN(y2) &&
+    y1 <= y2 &&
+    Math.abs(y1 - y2) < 5 &&
+    Math.abs(y1 - nowYY) < 5;
+
+  // 🔴 mismatch → confirm না হওয়া পর্যন্ত false
+  if (c1 !== c2) {
+    disableFields(true);        // default false state
+    setValidationState(regInput, false, ROLL_AND_REG_RULES.reg.max);
+    setValidationState(rollInput, false, ROLL_AND_REG_RULES.roll.max);
+
+    const proceed = await confirmCollegeMismatch();
+    ok = proceed;               // Yes হলে true
+  }
+
+  setValidationState(regInput, ok, ROLL_AND_REG_RULES.reg.max);
+  setValidationState(rollInput, ok, ROLL_AND_REG_RULES.roll.max);
+
   disableFields(!ok);
-  
   return ok;
 }
 
@@ -1105,9 +1137,9 @@ function initUI(APP_DATA) {
   const rollInput = $('#rollNo');
   const regInput = $('#regNo');
   
-  const runValidation = () => {
+  const runValidation = async () => {
     const ctx = getStudentContext(rollInput, regInput);
-    validateInputs(ctx, APP_DATA.collegeCodes, rollInput, regInput);
+    await validateInputs(ctx, APP_DATA.collegeCodes, rollInput, regInput);
   };
   
   const handleInput = (input, formatter, getCode, getYear) =>
@@ -1115,9 +1147,12 @@ function initUI(APP_DATA) {
       
       withCaret(input, () => formatter(input));
       
-      const code = getCode(input.value);
-      clgName.value = APP_DATA.colleges[code] || "";
-      setValidationState(clgName, !!clgName.value);
+      // শুধু rollInput হলে কলেজ কোড বের করবে
+      if (input === rollInput) {
+        const code = getCode(input.value);
+        clgName.value = APP_DATA.colleges[code] || "";
+        setValidationState(clgName, !!clgName.value);
+      }
       
       runValidation();
     });
