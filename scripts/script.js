@@ -481,71 +481,77 @@ function withCaret(input, fn) {
   input.setSelectionRange(newPos, newPos);
 }
 
-function confirmCollegeMismatch() {
+function confirmMismatch(message, delay = 3000) {
   return new Promise(resolve => {
-    setTimeout(() => {
-      const yes = confirm(
-        "Your college and registration do not match.\nDo you want to continue?"
-      );
-      resolve(yes);
-    }, 3000); // delay (ms)
+    setTimeout(() => resolve(confirm(message)), delay);
   });
 }
 
-
 // ================= MAIN VALIDATION =================
 async function validateInputs(ctx, collegeCodes, rollInput, regInput) {
-
+  
   attachGuard(regInput, ROLL_AND_REG_RULES.reg, collegeCodes);
   attachGuard(rollInput, ROLL_AND_REG_RULES.roll, collegeCodes);
-
+  
   const r = onlyDigits(regInput.value).slice(0, ROLL_AND_REG_RULES.reg.max);
   const rl = onlyDigits(rollInput.value).slice(0, ROLL_AND_REG_RULES.roll.max);
-
+  
   const regValid = ROLL_AND_REG_RULES.reg.validate(r, collegeCodes);
   const rollValid = ROLL_AND_REG_RULES.roll.validate(rl, collegeCodes);
-
+  
   regInput.value = formatWith(r, ROLL_AND_REG_RULES.reg.parts);
   rollInput.value = formatWith(rl, ROLL_AND_REG_RULES.roll.parts);
-
+  
   setValidationState(regInput, regValid, ROLL_AND_REG_RULES.reg.max);
   setValidationState(rollInput, rollValid, ROLL_AND_REG_RULES.roll.max);
-
+  
   let ok = regValid && rollValid;
-
+  
   if (!ok) {
     disableFields(true);
     return false;
   }
-
+  
   const c1 = parseInt(r.slice(0, 3), 10);
   const c2 = parseInt(rl.slice(3, 6), 10);
-
+  
   const y1 = parseInt(r.slice(-2), 10);
   const y2 = parseInt(rl.slice(0, 2), 10);
   const nowYY = new Date().getFullYear() % 100;
-
+  
   // year rules (college match বাদে)
-  ok =
-    !isNaN(y1) &&
+  ok = !isNaN(y1) &&
     !isNaN(y2) &&
     y1 <= y2 &&
     Math.abs(y1 - y2) < 5 &&
     Math.abs(y1 - nowYY) < 5;
-
+  
   // 🔴 mismatch → confirm না হওয়া পর্যন্ত false
-  if (c1 !== c2) {
-    disableFields(true);        // default false state
+  const collegeMismatch = c1 !== c2;
+  const yearMismatch = y1 !== y2;
+  
+  if (collegeMismatch || yearMismatch) {
+    
+    disableFields(true);
     setValidationState(regInput, false, ROLL_AND_REG_RULES.reg.max);
     setValidationState(rollInput, false, ROLL_AND_REG_RULES.roll.max);
-
-    const proceed = await confirmCollegeMismatch();
-    ok = proceed;               // Yes হলে true
+    
+    let msg;
+    
+    if (collegeMismatch && yearMismatch)
+      msg = "Your Roll Number, Registration and College do not match.\nDo you want to continue?";
+    else if (collegeMismatch)
+      msg = "Your College and Registration do not match.\nDo you want to continue?";
+    else
+      msg = "Your Roll Number and Registration do not seem right, please cross check.\nDo you want to continue?";
+    
+    ok = await confirmMismatch(msg);
   }
-
+  
+  
   setValidationState(regInput, ok, ROLL_AND_REG_RULES.reg.max);
   setValidationState(rollInput, ok, ROLL_AND_REG_RULES.roll.max);
-
+  
   disableFields(!ok);
   return ok;
 }
