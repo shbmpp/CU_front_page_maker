@@ -15,7 +15,7 @@ const debounce = (fn, delay = 10) => {
 
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => ctx.querySelectorAll(sel);
-
+const REGISTRATION_VALIDITY = 5;
 const form = $("#stdInfo");
 const rollInput = $("#rollNo");
 const regInput = $("#regNo");
@@ -384,13 +384,13 @@ function guardInput(input, maxLen, validator) {
 const isValidYearWindow = yy => {
   const nowYY = new Date().getFullYear() % 100;
   const diff = (nowYY - yy + 100) % 100; // wrap-safe
-  return diff <= 4;
+  return diff <= (REGISTRATION_VALIDITY - 1);
 };
 
 // ===== YEAR PREFIX POSSIBILITY (for guard) =====
 const isPossibleYearPrefix = prefix => {
   const nowYY = new Date().getFullYear() % 100;
-  for (let y = nowYY; y >= nowYY - 4; y--) {
+  for (let y = nowYY; y >= nowYY - (REGISTRATION_VALIDITY - 1); y--) {
     const yy = String(y).padStart(2, "0");
     if (yy.startsWith(prefix)) return true;
   }
@@ -399,23 +399,23 @@ const isPossibleYearPrefix = prefix => {
 
 // ===== RULES =====
 const ROLL_AND_REG_RULES = {
-
+  
   // college prefix helper
   collegePrefix(partial, collegeCodes) {
     return [...collegeCodes].some(code => code.startsWith(partial));
   },
-
+  
   // ===== REGISTRATION =====
   reg: {
     max: 13,
     parts: [3, 4, 4, 2],
-
+    
     guard(next, collegeCodes) {
-
+      
       // college code prefix
       if (next.length <= 3)
         return ROLL_AND_REG_RULES.collegePrefix(next, collegeCodes);
-
+      
       // 🔒 year prefix (last 1–2 digits)
       if (next.length >= 12) {
         const p = next.slice(11); // 1 বা 2 digit
@@ -424,10 +424,10 @@ const ROLL_AND_REG_RULES = {
         const yy = parseInt(next.slice(-2), 10);
         return !isNaN(yy) && isValidYearWindow(yy);
       }
-
+      
       return true;
     },
-
+    
     validate(raw, collegeCodes) {
       const yy = parseInt(raw.slice(-2), 10);
       return (
@@ -438,14 +438,14 @@ const ROLL_AND_REG_RULES = {
       );
     }
   },
-
+  
   // ===== ROLL =====
   roll: {
     max: 12,
     parts: [6, 2, 4],
-
+    
     guard(next, collegeCodes) {
-
+      
       // 🔒 admission year prefix (first 1–2 digits)
       if (next.length <= 2) {
         const p = next.slice(0, 2);
@@ -454,15 +454,15 @@ const ROLL_AND_REG_RULES = {
         const yy = parseInt(p, 10);
         return !isNaN(yy) && isValidYearWindow(yy);
       }
-
+      
       // dept (3rd digit)
       if (next.length >= 3 && !['1', '2', '3'].includes(next[2]))
         return false;
-
+      
       // college prefix (digits 4–6)
       if (next.length >= 4 && next.length <= 6)
         return ROLL_AND_REG_RULES.collegePrefix(next.slice(3), collegeCodes);
-
+      
       // year type (digits 7–8)
       if (next.length >= 7 && next.length <= 8) {
         const p = next.slice(6);
@@ -470,25 +470,23 @@ const ROLL_AND_REG_RULES = {
         if (p.length === 2 && !['11', '12', '21', '22'].includes(p))
           return false;
       }
-
+      
       // serial (last 4 digits)
       if (next.length === 12) {
         const s = +next.slice(8);
         return s >= 1 && s <= 9999;
       }
-
+      
       return true;
     },
-
+    
     validate(raw, collegeCodes) {
       const yy = parseInt(raw.slice(0, 2), 10);
       return (
         raw.length === 12 &&
         !isNaN(yy) &&
-        isValidYearWindow(yy) &&
-        ['1', '2', '3'].includes(raw[2]) &&
-        collegeCodes.has(raw.slice(3, 6)) &&
-        ['11', '12', '21', '22'].includes(raw.slice(6, 8)) &&
+        isValidYearWindow(yy) && ['1', '2', '3'].includes(raw[2]) &&
+        collegeCodes.has(raw.slice(3, 6)) && ['11', '12', '21', '22'].includes(raw.slice(6, 8)) &&
         +raw.slice(8) >= 1 &&
         +raw.slice(8) <= 9999
       );
@@ -585,14 +583,14 @@ async function validateInputs(ctx, collegeCodes, rollInput, regInput) {
     return false;
   }
   // remaining soft rules
-  ok = Math.abs(y1 - nowYY) < 5;
+  ok = Math.abs(y1 - nowYY) < REGISTRATION_VALIDITY;
   
   const c1 = parseInt(r.slice(0, 3), 10);
   const c2 = parseInt(rl.slice(3, 6), 10);
   
   const collegeMismatch = c1 !== c2;
   const yearMismatch = y1 !== y2;
-  const expired = Math.abs(y1 - nowYY) >= 5;
+  const expired = Math.abs(y1 - nowYY) >= REGISTRATION_VALIDITY;
   
   if (collegeMismatch || yearMismatch || expired) {
     
