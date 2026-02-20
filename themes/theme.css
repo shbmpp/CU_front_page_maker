@@ -37,17 +37,31 @@ body.showLoading::after {
   color: #fff;
   opacity: 0.85;
   z-index: 9999;
-
+  
   animation: loadingDots 1.6s steps(4, end) infinite;
 }
 
 /* animated dots */
 @keyframes loadingDots {
-  0%   { content: "Loading"; }
-  25%  { content: "Loading."; }
-  50%  { content: "Loading.."; }
-  75%  { content: "Loading..."; }
-  100% { content: "Loading...."; }
+  0% {
+    content: "Loading";
+  }
+  
+  25% {
+    content: "Loading.";
+  }
+  
+  50% {
+    content: "Loading..";
+  }
+  
+  75% {
+    content: "Loading...";
+  }
+  
+  100% {
+    content: "Loading....";
+  }
 }
 
 body.printing {
@@ -136,10 +150,11 @@ body.printing {
   transition: background 0.5s ease, color 0.5s ease;
   
 }
-.a4-container.no-border,
-.a4-container.no-border * {
+
+.a4-container.no-border {
   border: none !important;
 }
+
 /*.a4-container::after {
       content: "";
       position: absolute;
