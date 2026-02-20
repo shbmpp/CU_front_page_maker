@@ -1074,9 +1074,9 @@ const validatePaper = debounce(() => {
     VIII: { H: { "DSCC": [20, 21, 22, 23, 24, 25], "RES": [2] }, G: {} }
   };
   const semPrefixesCom = {
-    I: { H: { "DSCC": [1], "MN": [1], "SEC": [1], "IDC": [1], "MDC": [1] }, G: { /*"DSCC": [1],*/ "MN": [1], "SEC": [1], "IDC": [1], "MDC": [1] } },
-    II: { H: { "DSCC": [2], "MN": [2], "SEC": [2], "IDC": [2], "MDC": [2], "SI": [1] }, G: { /*"DSCC": [2], */ "MN": [2], "SEC": [2], "IDC": [2], "MDC": [2], "SI": [1] } },
-    III: { H: { "DSCC": [3, 4], "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3, 4] }, G: { /*"DSCC": [3, 4], */ "MN": [3], "SEC": [3], "IDC": [3], "MDC": [3, 4] } },
+    I: { H: { "DSCC": [1], "MN": [1], "SEC": [1], "IDC/MDC": [1] }, G: { /*"DSCC": [1],*/ "MN": [1], "SEC": [1], "IDC/MDC": [1], "MDC": [1] } },
+    II: { H: { "DSCC": [2], "MN": [2], "SEC": [2], "IDC/MDC": [2], "SI": [1] }, G: { /*"DSCC": [2], */ "MN": [2], "SEC": [2], "IDC/MDC": [2], "MDC": [2], "SI": [1] } },
+    III: { H: { "DSCC": [3, 4], "MN": [3], "SEC": [3], "IDC/MDC": [3] }, G: { /*"DSCC": [3, 4], */ "MN": [3], "SEC": [3], "IDC/MDC": [3], "MDC": [3, 4] } },
     IV: { H: { "DSCC": [5, 6, 7, 8], "MN": [4], "SI": [1] }, G: { /*"DSCC": [5, 6, 7, 8],*/ "MDC": [5, 6, 7, 8], "MN": [4], "SI": [1] } },
     V: { H: { "DSCC": [9, 10, 11], "MN": [5, 6] }, G: { /*"DSCC": [9, 10, 11], */ "MDC": [9, 10, 11, 12], "MN": [5] } },
     VI: { H: { "DSCC": [13, 14, 15, 12], "MN": [7, 8], "SI": [1] }, G: { /*"DSCC": [13, 14, 15, 12],*/ "MDC": [13, 14, 15, 12], "MN": [7, 8], "SI": [1] } },
@@ -1119,7 +1119,7 @@ const validatePaper = debounce(() => {
     filtered = filterMap(baseMap, ["SEC"]);
   }
   else if (S.IDC.has(subj)) {
-    filtered = filterMap(baseMap, ["IDC", "MDC"]);
+    filtered = filterMap(baseMap, ["IDC", "IDC/MDC"]);
   }
   else if (
     (isH && S.SI.H.has(subj)) ||
