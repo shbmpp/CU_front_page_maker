@@ -136,7 +136,7 @@ body.printing {
   width: 794px;
   height: 1123px;
   overflow: hidden;
-  border: 10px solid #fff;
+  border: .5in solid #fff;
   box-sizing: border-box;
   border-radius: 0px;
   margin: auto;
