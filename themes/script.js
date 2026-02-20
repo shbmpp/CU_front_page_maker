@@ -85,6 +85,7 @@ const Stream = roll => {
 const TEMPLATE_MAP = {
   name: s => s.student_name,
   topic: s => s.topic_name,
+  hero: s => s.hero,
   college: s => s.college_name,
   reg_number: s => s.registration_number,
   roll_number: s => s.roll_number,
@@ -112,13 +113,9 @@ function renderTemplate(data) {
   $(".logo").style.display = data.addLOGO === "on" ? "block" : "none";
   
   //border
-  document.querySelector(".a4-container")
-    .firstElementChild.style.border =
-    data.addBorder === "on" ? "" : "none";
-  document.querySelector(".a4-container")
-    .style.border =
-    data.addBorder === "on" ? "" : "none";
-
+  const a4 = document.querySelector(".a4-container");
+  a4.classList.toggle("no-border", data.addBorder !== "on");
+  
   // render text fields
   Object.entries(TEMPLATE_MAP).forEach(([cls, getter]) => {
     const el = $(`.${cls}`);

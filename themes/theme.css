@@ -136,7 +136,10 @@ body.printing {
   transition: background 0.5s ease, color 0.5s ease;
   
 }
-
+.a4-container.no-border,
+.a4-container.no-border * {
+  border: none !important;
+}
 /*.a4-container::after {
       content: "";
       position: absolute;
