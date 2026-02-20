@@ -113,9 +113,14 @@ function renderTemplate(data) {
   
   //border
   const a4 = document.querySelector(".a4-container");
-  a4.classList.toggle("no-border", data.addBorder !== "on");
-  a4.firstElementChild.classList.toggle("no-border", data.addBorder !== "on");
-
+  const inner = a4.querySelector(".classic"); // ভিতরের element
+  
+  const hide = data.addBorder !== "on";
+  
+  a4.classList.toggle("no-border", hide);
+  inner?.classList.toggle("no-border", hide);
+  
+  
   // render text fields
   Object.entries(TEMPLATE_MAP).forEach(([cls, getter]) => {
     const el = $(`.${cls}`);
