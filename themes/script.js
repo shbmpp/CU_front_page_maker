@@ -63,8 +63,7 @@ const setTitle = () => {
 const $ = (sel, ctx) => {
   const root =
     ctx ||
-    document.querySelector(".a4-container")?.firstElementChild;
-  
+    document.querySelector(".a4-container");
   return root?.querySelector(sel) ?? null;
 };
 
