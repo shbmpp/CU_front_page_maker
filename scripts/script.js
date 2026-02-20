@@ -843,10 +843,9 @@ function resolveAllowedSubjects({ sem, dept, isH }) {
         add(S.MINOR, S.SEC.G, S.IDC)) : add(S.MDC_BCOM, S.MINOR, S.SEC.G, S.IDC);
       
     case "II":
-    case "VI":
-      return !(dept === 1 && !isH) ? isH ?
+      return !(dept === 1 && !isH) ? (isH ?
         add(S.MAJOR, S.MINOR, S.SEC.H, S.IDC, S.SI.H) :
-        add(S.MINOR, S.SEC.G, S.IDC, S.SI.G) : add(S.MDC_BCOM, S.MINOR, S.SEC.G, S.IDC, S.SI.G);
+        add(S.MINOR, S.SEC.G, S.IDC, S.SI.G)) : add(S.MDC_BCOM, S.MINOR, S.SEC.G, S.IDC, S.SI.G);
       
     case "IV":
       return !(dept === 1 && !isH) ? (isH ?
@@ -857,7 +856,12 @@ function resolveAllowedSubjects({ sem, dept, isH }) {
       return !(dept === 1 && !isH) ? (isH ?
         add(S.MAJOR, S.MINOR) :
         new Set(S.MINOR)) : add(S.MDC_BCOM, S.MINOR);
-      
+   
+    case "VI":
+      return !(dept === 1 && !isH) ? (isH ?
+        add(S.MAJOR, S.MINOR, S.SI.H) :
+        add(S.MINOR, S.SI.G)) : add(S.MDC_BCOM, S.MINOR, S.SI.G);
+    
     case "VII":
     case "VIII":
       return isH ? new Set(S.MAJOR) : new Set();
