@@ -115,7 +115,7 @@ function renderTemplate(data) {
   const a4 = document.querySelector(".a4-container");
   const inner = a4.querySelector(".classic"); // ভিতরের element
   
-  const hide = data.addBorder !== "on";
+  const hide = data.addMargin !== "on";
   
   a4.classList.toggle("no-border", hide);
   inner?.classList.toggle("no-border", hide);
