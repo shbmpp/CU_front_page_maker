@@ -130,7 +130,8 @@ main {
 /* header block */
 blockquote {
   margin: 0 0 22px;
-  padding: 18px 22px;
+  padding: 18px 15px;
+  box-shadow: .5px .5px 15px rgba(0, 0, 0, .18);
   border-left: 4px solid #4f6df5;
   background: #f7f9ff;
   border-radius: 6px;
@@ -158,6 +159,9 @@ blockquote pre {
 }
 
 blockquote q {
+  font-weight: 700;
+}
+blockquote i {
   font-weight: 500;
 }
 
@@ -221,6 +225,7 @@ form {
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
+  font-family: inherit;
   background: transparent;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
