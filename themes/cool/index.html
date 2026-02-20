@@ -8,7 +8,6 @@
   <base href="/CU_front_page_maker/">
   <link rel="stylesheet" href="themes/theme.css">
   <style>
-    
     .a4-container {
       background: url('themes/cool/border.jpeg');
       opacity: 0.75;
@@ -17,6 +16,7 @@
       background-size: contain;
       
     }
+    
     .cool {
       height: 95%;
       width: 95%;
@@ -26,7 +26,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-     font-family: monospace;
+      font-family: monospace;
     }
     
     .cool .univ-logo {
@@ -88,6 +88,16 @@
       margin: 5px;
     }
     
+    .cool .detail-container .hero {
+      align-self: center;
+      padding: .51em 0;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      border: none;
+      border-bottom: .5px solid #003366;
+    }
+    
     .cool .detail-container .topic {
       align-self: center;
       padding: .51em;
@@ -104,7 +114,6 @@
       border-bottom: 5px solid #003366;
       border-left: 5px solid #003366;
     }
-    
   </style>
 </head>
 
@@ -123,6 +132,8 @@
           <p> UNIVERSITY OF CALCUTTA </p>
         </div>
         <div class="detail-container">
+          <div class="info hero">
+          </div>
           <div class="info topic">
           </div>
           <div class="info college">
@@ -174,7 +185,7 @@
         </svg></button>
     </div>
   </main>
-    <footer>
+  <footer>
     <small>Powered by SHBMPP</small>
     <picture>
       <a href="https://www.facebook.com/shbmpp">
@@ -208,7 +219,7 @@
       </a>
     </picture>
   </footer>
-
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="themes/script.js"></script>
 </body>

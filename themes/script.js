@@ -99,6 +99,7 @@ const TEMPLATE_MAP = {
 const VISIBILITY_RULES = {
   name: s => (s.addName === "on" && !!s.student_name),
   college: s => s.addClgName === "on",
+  hero: s => s.addHero === "on",
   session: s => s.addSession === "on",
   topic: s => !!s.topic_name
 };
@@ -110,6 +111,14 @@ function renderTemplate(data) {
   // logo
   $(".logo").style.display = data.addLOGO === "on" ? "block" : "none";
   
+  //border
+  document.querySelector(".a4-container")
+    .firstElementChild.style.border =
+    data.addBorder === "on" ? "" : "none";
+  document.querySelector(".a4-container")
+    .style.border =
+    data.addBorder === "on" ? "" : "none";
+
   // render text fields
   Object.entries(TEMPLATE_MAP).forEach(([cls, getter]) => {
     const el = $(`.${cls}`);

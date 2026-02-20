@@ -153,24 +153,26 @@ const getFormData = e => {
   e.preventDefault();
   const form = e.target.closest("form");
   if (!form) return null;
-  
-  const data = [...new FormData(form)].reduce((o, [k, v]) => {
-    o[k] = k in o ? [].concat(o[k], v) : v;
-    return o;
-  }, {});
-  
-  const y = new Date().getFullYear();
-  data.session = `${y - 1}-${y}`;
-  
-  const { subject_code, roll_number } = data;
-  
-  if (subject_code && APP_DATA?.codeToSubject)
-    data.subject = APP_DATA.codeToSubject[subject_code] || subject_code;
-  
-  const [, mid] = roll_number.split("-");
-  data.dept = roll_number[2];
+
+  const data = Object.fromEntries(new FormData(form));
+  const year = new Date().getFullYear();
+
+  data.session = `${year - 1}-${year}`;
+  data.subject = APP_DATA?.codeToSubject?.[data.subject_code] || data.subject_code;
+
+  const roll = data.roll_number || "";
+  const [ , mid = "" ] = roll.split("-");
+  const deptCode = roll[2] || "";
+
+  data.dept = deptCode;
   data.is4 = ["11", "21"].includes(mid);
-  
+
+  const deptMap = {1:"B.COM.",2:"B.A.",3:"B.Sc."};
+  data.hero =
+    `${data.is4 ? "Four Year" : "Three Year"} ` +
+    `${deptMap[deptCode] || ""} SEMESTER - ${data.semester} Examination, ` +
+    `${year - 1} (Under CCF, 2022)`;
+
   return data;
 };
 
@@ -856,12 +858,12 @@ function resolveAllowedSubjects({ sem, dept, isH }) {
       return !(dept === 1 && !isH) ? (isH ?
         add(S.MAJOR, S.MINOR) :
         new Set(S.MINOR)) : add(S.MDC_BCOM, S.MINOR);
-   
+      
     case "VI":
       return !(dept === 1 && !isH) ? (isH ?
         add(S.MAJOR, S.MINOR, S.SI.H) :
         add(S.MINOR, S.SI.G)) : add(S.MDC_BCOM, S.MINOR, S.SI.G);
-    
+      
     case "VII":
     case "VIII":
       return isH ? new Set(S.MAJOR) : new Set();
