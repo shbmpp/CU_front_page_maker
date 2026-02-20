@@ -153,26 +153,26 @@ const getFormData = e => {
   e.preventDefault();
   const form = e.target.closest("form");
   if (!form) return null;
-
+  
   const data = Object.fromEntries(new FormData(form));
   const year = new Date().getFullYear();
-
+  
   data.session = `${year - 1}-${year}`;
   data.subject = APP_DATA?.codeToSubject?.[data.subject_code] || data.subject_code;
-
+  
   const roll = data.roll_number || "";
-  const [ , mid = "" ] = roll.split("-");
+  const [, mid = ""] = roll.split("-");
   const deptCode = roll[2] || "";
-
+  
   data.dept = deptCode;
   data.is4 = ["11", "21"].includes(mid);
-
-  const deptMap = {1:"B.COM.",2:"B.A.",3:"B.Sc."};
+  
+  const deptMap = { 1: "B.COM.", 2: "B.A.", 3: "B.Sc." };
   data.hero =
     `${data.is4 ? "Four Year" : "Three Year"} ` +
     `${deptMap[deptCode] || ""} SEMESTER - ${data.semester} Examination, ` +
     `${year - 1} (Under CCF, 2022)`;
-
+  
   return data;
 };
 
@@ -380,67 +380,115 @@ function guardInput(input, maxLen, validator) {
 }
 
 // ================= RULES =================
+// ===== YEAR WINDOW: current year → past 4 years (no future) =====
+const isValidYearWindow = yy => {
+  const nowYY = new Date().getFullYear() % 100;
+  const diff = (nowYY - yy + 100) % 100; // wrap-safe
+  return diff <= 4;
+};
+
+// ===== YEAR PREFIX POSSIBILITY (for guard) =====
+const isPossibleYearPrefix = prefix => {
+  const nowYY = new Date().getFullYear() % 100;
+  for (let y = nowYY; y >= nowYY - 4; y--) {
+    const yy = String(y).padStart(2, "0");
+    if (yy.startsWith(prefix)) return true;
+  }
+  return false;
+};
+
+// ===== RULES =====
 const ROLL_AND_REG_RULES = {
+
+  // college prefix helper
   collegePrefix(partial, collegeCodes) {
     return [...collegeCodes].some(code => code.startsWith(partial));
   },
-  
+
+  // ===== REGISTRATION =====
   reg: {
     max: 13,
     parts: [3, 4, 4, 2],
-    
+
     guard(next, collegeCodes) {
+
+      // college code prefix
       if (next.length <= 3)
         return ROLL_AND_REG_RULES.collegePrefix(next, collegeCodes);
-      
-      if (next.length === 13)
-        return /^\d{2}$/.test(next.slice(-2));
-      
+
+      // 🔒 year prefix (last 1–2 digits)
+      if (next.length >= 12) {
+        const p = next.slice(11); // 1 বা 2 digit
+        if (!isPossibleYearPrefix(p)) return false;
+        if (next.length < 13) return true; // 1-digit year allow if possible
+        const yy = parseInt(next.slice(-2), 10);
+        return !isNaN(yy) && isValidYearWindow(yy);
+      }
+
       return true;
     },
-    
+
     validate(raw, collegeCodes) {
+      const yy = parseInt(raw.slice(-2), 10);
       return (
         raw.length === 13 &&
         collegeCodes.has(raw.slice(0, 3)) &&
-        /^\d{2}$/.test(raw.slice(-2))
+        !isNaN(yy) &&
+        isValidYearWindow(yy)
       );
     }
   },
-  
+
+  // ===== ROLL =====
   roll: {
     max: 12,
     parts: [6, 2, 4],
-    
+
     guard(next, collegeCodes) {
-      // Dept (3rd digit)
-      if (next.length >= 3 && !['1', '2', '3'].includes(next[2])) return false;
-      
-      // College code prefix (digits 4–6)
+
+      // 🔒 admission year prefix (first 1–2 digits)
+      if (next.length <= 2) {
+        const p = next.slice(0, 2);
+        if (!isPossibleYearPrefix(p)) return false;
+        if (next.length < 2) return true; // allow 1-digit prefix
+        const yy = parseInt(p, 10);
+        return !isNaN(yy) && isValidYearWindow(yy);
+      }
+
+      // dept (3rd digit)
+      if (next.length >= 3 && !['1', '2', '3'].includes(next[2]))
+        return false;
+
+      // college prefix (digits 4–6)
       if (next.length >= 4 && next.length <= 6)
         return ROLL_AND_REG_RULES.collegePrefix(next.slice(3), collegeCodes);
-      
-      // Year type (digits 7–8)
+
+      // year type (digits 7–8)
       if (next.length >= 7 && next.length <= 8) {
         const p = next.slice(6);
         if (!['1', '2'].includes(p[0])) return false;
-        if (p.length === 2 && !['11', '12', '21', '22'].includes(p)) return false;
+        if (p.length === 2 && !['11', '12', '21', '22'].includes(p))
+          return false;
       }
-      
-      // Serial (last 4 digits)
+
+      // serial (last 4 digits)
       if (next.length === 12) {
         const s = +next.slice(8);
         return s >= 1 && s <= 9999;
       }
-      
+
       return true;
     },
-    
+
     validate(raw, collegeCodes) {
+      const yy = parseInt(raw.slice(0, 2), 10);
       return (
         raw.length === 12 &&
-        /^\d{2}$/.test(raw.slice(0, 2)) && ['1', '2', '3'].includes(raw[2]) &&
-        collegeCodes.has(raw.slice(3, 6)) && ['11', '12', '21', '22'].includes(raw.slice(6, 8)) &&
+        !isNaN(yy) &&
+        isValidYearWindow(yy) &&
+        ['1', '2', '3'].includes(raw[2]) &&
+        collegeCodes.has(raw.slice(3, 6)) &&
+        ['11', '12', '21', '22'].includes(raw.slice(6, 8)) &&
         +raw.slice(8) >= 1 &&
         +raw.slice(8) <= 9999
       );
