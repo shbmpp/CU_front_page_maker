@@ -778,9 +778,9 @@ const makeSubjects = ({ major = [], minor = [] }, d) => {
 
 const SUBJECTS = {
   1: makeSubjects({
-    major: ["CACM", "FACM", "BRCM", "EBCM", "DTCM", "ACCM", "MSCM", "CLCM"],
-    minor: ["CAGM", "FAGM", "BRGM", "EBGM", "DTGM", "ACGM", "MSGM", "CLGM",
-      "MCGM", "MPRM", "MEBS", "MMKC", "MHRM", "MMKT", "MSMT", "MPPM", "ATGM"
+    major: ["CACM", "FACM", "BRCM", "EBCM", "DTCM", "ACCM", "MSCM", "CLCM", "ITCM", "AACM", "FMCM", "FSCM"],
+    minor: ["CAGM", "FAGM", "BRGM", "EBGM", "DTGM", "ACGM", "MSGM", "CLGM", "ITGM", "AAGM", "FMGM", "FSGM",
+      "MCGM", "MPRM", "MEBS", "MMKC", "MHRM", "MMKT", "MSMT", "MPPM", "ATGM", "ITCM", "MRSM", "MRIM"
     ]
   }, 1),
   2: makeSubjects({
