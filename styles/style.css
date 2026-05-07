@@ -3,6 +3,7 @@
   margin: 0;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+  
 }
 
 :root {
@@ -173,6 +174,7 @@ blockquote i {
   display: flex;
   flex-direction: column;
   border-radius: 10px;
+  width: 120%;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
@@ -206,6 +208,7 @@ form {
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 500px;
+  width: 110%;
 }
 
 /* floating label wrapper */
@@ -221,7 +224,7 @@ form {
   width: 100%;
   min-width: 110px;
   padding: 14px 12px;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
@@ -445,7 +448,7 @@ form {
   border-radius: 6px;
   background: #fff;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -513,7 +516,7 @@ form {
 .dropdown-list li {
   padding: 8px 12px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
 }
 
 .dropdown-list li:nth-of-type(odd) {
