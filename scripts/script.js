@@ -171,7 +171,7 @@ const getFormData = e => {
   data.hero =
     `${data.is4 ? "Four Year" : "Three Year"} ` +
     `${deptMap[deptCode] || ""} SEMESTER - ${data.semester} Examination, ` +
-    `${year - 1} (Under CCF, 2022)`;
+    `${year} (Under CCF, 2022)`;
   
   return data;
 };
